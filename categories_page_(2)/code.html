@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ramzan Fresh - Fruit List</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec5b",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102216",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1a2e22",
+                        "text-main": "#111813",
+                        "text-muted": "#61896f",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for sidebar if needed */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #e2e8f0;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-white overflow-x-hidden min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 bg-white dark:bg-card-dark border-b border-[#f0f4f2] dark:border-white/10 px-4 lg:px-10 py-3 shadow-sm">
+<div class="layout-container max-w-7xl mx-auto flex items-center justify-between whitespace-nowrap">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-3 text-text-main dark:text-white group" href="#">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-4xl">eco</span>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Ramzan Fresh</h2>
+</a>
+<!-- Search Bar Desktop -->
+<label class="hidden md:flex flex-col min-w-40 h-10 w-96">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-[#f0f4f2] dark:bg-white/5 overflow-hidden ring-1 ring-transparent focus-within:ring-primary/50">
+<div class="text-text-muted flex items-center justify-center pl-4 pr-2">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="flex w-full min-w-0 flex-1 resize-none bg-transparent border-none text-text-main dark:text-white placeholder:text-text-muted focus:ring-0 text-sm" placeholder="Search for fruits, dates..."/>
+</div>
+</label>
+</div>
+<div class="flex items-center gap-4 lg:gap-8">
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-text-main dark:text-white/90 text-sm font-semibold hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-primary text-sm font-bold" href="#">Ramzan Specials</a>
+<a class="text-text-main dark:text-white/90 text-sm font-semibold hover:text-primary transition-colors" href="#">Bulk Orders</a>
+</nav>
+<div class="flex gap-3">
+<button class="flex items-center justify-center rounded-lg size-10 bg-[#f0f4f2] dark:bg-white/10 text-text-main dark:text-white hover:bg-primary/20 transition-colors relative">
+<span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+<span class="absolute top-1 right-1 size-2 bg-primary rounded-full"></span>
+</button>
+<button class="flex items-center justify-center rounded-lg size-10 bg-[#f0f4f2] dark:bg-white/10 text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">person</span>
+</button>
+<!-- Mobile Menu Toggle -->
+<button class="lg:hidden flex items-center justify-center rounded-lg size-10 bg-[#f0f4f2] dark:bg-white/10 text-text-main dark:text-white">
+<span class="material-symbols-outlined text-[20px]">menu</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Breadcrumbs -->
+<div class="bg-white/50 dark:bg-black/20 backdrop-blur-sm border-b border-gray-100 dark:border-white/5">
+<div class="max-w-7xl mx-auto px-4 lg:px-10 py-3">
+<div class="flex flex-wrap items-center gap-2 text-sm">
+<a class="text-text-muted hover:text-primary transition-colors" href="#">Home</a>
+<span class="text-text-muted">/</span>
+<a class="text-text-muted hover:text-primary transition-colors" href="#">Ramzan Specials</a>
+<span class="text-text-muted">/</span>
+<span class="text-text-main dark:text-white font-medium">Fresh Fruits</span>
+</div>
+</div>
+</div>
+<!-- Main Layout -->
+<div class="max-w-7xl mx-auto w-full px-4 lg:px-10 py-8 flex-1">
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Sidebar Filters -->
+<aside class="w-full lg:w-64 shrink-0 hidden lg:block space-y-8">
+<!-- Categories -->
+<div class="bg-white dark:bg-card-dark p-5 rounded-xl shadow-sm border border-gray-100 dark:border-white/5">
+<h3 class="font-bold text-lg mb-4 text-text-main dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">category</span>
+                        Categories
+                    </h3>
+<ul class="space-y-2">
+<li>
+<a class="flex items-center justify-between p-2 rounded-lg bg-primary/10 text-primary font-bold" href="#">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">nutrition</span>
+                                    All Fruits
+                                </span>
+<span class="text-xs bg-white dark:bg-black/20 px-2 py-0.5 rounded-full">42</span>
+</a>
+</li>
+<li>
+<a class="flex items-center justify-between p-2 rounded-lg text-text-muted hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+                                    Dates (Khajoor)
+                                </span>
+<span class="text-xs bg-gray-100 dark:bg-white/10 px-2 py-0.5 rounded-full text-text-main dark:text-gray-300">15</span>
+</a>
+</li>
+<li>
+<a class="flex items-center justify-between p-2 rounded-lg text-text-muted hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">water_drop</span>
+                                    Melons &amp; Watery
+                                </span>
+</a>
+</li>
+<li>
+<a class="flex items-center justify-between p-2 rounded-lg text-text-muted hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px]">blur_on</span>
+                                    Berries &amp; Citrus
+                                </span>
+</a>
+</li>
+</ul>
+</div>
+<!-- Price Filter -->
+<div class="bg-white dark:bg-card-dark p-5 rounded-xl shadow-sm border border-gray-100 dark:border-white/5">
+<h3 class="font-bold text-lg mb-4 text-text-main dark:text-white">Price Range</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox rounded text-primary border-gray-300 focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="text-text-muted group-hover:text-text-main dark:group-hover:text-white transition-colors">Under $5</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox rounded text-primary border-gray-300 focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="text-text-main dark:text-white font-medium">$5 - $10</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox rounded text-primary border-gray-300 focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="text-text-muted group-hover:text-text-main dark:group-hover:text-white transition-colors">$10 - $20</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox rounded text-primary border-gray-300 focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="text-text-muted group-hover:text-text-main dark:group-hover:text-white transition-colors">$20 &amp; Above</span>
+</label>
+</div>
+</div>
+<!-- Origin -->
+<div class="bg-white dark:bg-card-dark p-5 rounded-xl shadow-sm border border-gray-100 dark:border-white/5">
+<h3 class="font-bold text-lg mb-4 text-text-main dark:text-white">Origin</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox rounded text-primary border-gray-300 focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="text-text-muted group-hover:text-text-main dark:group-hover:text-white transition-colors">Local (Organic)</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox rounded text-primary border-gray-300 focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="text-text-muted group-hover:text-text-main dark:group-hover:text-white transition-colors">Imported</span>
+</label>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 min-w-0">
+<!-- Hero Banner -->
+<div class="relative w-full rounded-2xl overflow-hidden mb-8 group bg-gray-900" data-alt="Dark abstract pattern background">
+<div class="absolute inset-0 bg-cover bg-center opacity-60 transition-transform duration-700 group-hover:scale-105" data-alt="A table spread with fresh fruits including melon and dates for iftar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAfg9LspIhCdSs596gZXSFqmbNCLv4H15R2s_hOJ-t7ZCDZp8scWtPYhfML5Sclm1iFQjKE4WGMjGVRWCUVTtQulko62_418NX1Yj1i-N3vvgkz3AuCvW6lkarvsqCXb9aXheck2VhDJmnES2AVA5GsSIkfL-fTsttBb8SMr5RMueJ8PnjlBpLpYYgqt1jYNU4GV9RuQuJxgiQ7bTr-x14s1CtPn1NA_fFXSNtrPvMSLk3bMHC7cOcsRD1c-xmprbr8gU-lOiM5lqvM');">
+</div>
+<div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+<div class="relative z-10 p-6 md:p-10 flex flex-col items-start justify-center min-h-[240px]">
+<span class="inline-block px-3 py-1 rounded-full bg-primary text-black text-xs font-bold uppercase tracking-wider mb-3">Ramzan Special</span>
+<h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-2 leading-tight">Fresh Fruits for<br/>Your Iftar Table</h1>
+<p class="text-gray-200 text-sm md:text-base max-w-md mb-6">Premium quality dates, juicy melons, and seasonal favorites delivered same-day to your doorstep.</p>
+<button class="bg-primary hover:bg-green-400 text-black font-bold py-3 px-6 rounded-lg transition-colors flex items-center gap-2">
+                            Shop Now
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Toolbar (Sort & Results) -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+<p class="text-text-muted text-sm font-medium"><span class="text-text-main dark:text-white font-bold">42</span> Products Found</p>
+<div class="flex items-center gap-3">
+<span class="text-sm text-text-muted hidden sm:inline">Sort by:</span>
+<div class="relative">
+<select class="appearance-none bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-text-main dark:text-white py-2 pl-4 pr-10 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer">
+<option>Popularity</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Newest First</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-muted">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</div>
+</div>
+<button class="lg:hidden p-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-text-main dark:text-white">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+</div>
+<!-- Products Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Product Card 1 -->
+<div class="bg-white dark:bg-card-dark rounded-xl overflow-hidden border border-[#f0f4f2] dark:border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300 group flex flex-col h-full">
+<div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-white/5">
+<span class="absolute top-3 left-3 z-10 bg-black/70 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">Best Seller</span>
+<img alt="Fresh pineapple on a dark background" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Fresh whole pineapple" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9V92jXbyOGgYU2J6vj6BsiSMXfltZ9mhMPhYJokVj0ASjCEzmQFXeXs8TslQtueyn5mFaIfKqWFsa5P71gdLn67DQlV2reAJAgUELFfZKQkDjpHFxJGc3atmn7H9L1WZn5Ao3jC1dstQ0UwJSE-ngqKJFwVSrZKnBFxaWnKLWriUdjG2z1tBltIa6ZdhyLWIbCkzvYB7LzV4OyB5vqtHRWItBPxB2B6Z39s3xArCRUi0Jpqy6vT7GDOK394RshD5BNIIgPOa0Vfo0"/>
+<button class="absolute top-3 right-3 z-10 p-1.5 bg-white/80 dark:bg-black/50 rounded-full text-text-muted hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-bold text-text-main dark:text-white text-lg leading-tight mb-1">Golden Pineapple</h3>
+<p class="text-xs text-text-muted">Imported from Philippines</p>
+</div>
+</div>
+<div class="flex items-end gap-1 mb-4">
+<span class="text-xl font-bold text-primary">$3.50</span>
+<span class="text-xs text-text-muted mb-1">/ unit</span>
+</div>
+<div class="mt-auto pt-4 border-t border-dashed border-gray-100 dark:border-white/10 flex items-center justify-between gap-3">
+<div class="flex items-center border border-gray-200 dark:border-white/20 rounded-lg h-9 w-24 bg-[#f0f4f2] dark:bg-white/5">
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-l-lg">-</button>
+<input class="w-8 h-full bg-transparent border-none text-center text-sm font-semibold p-0 focus:ring-0 text-text-main dark:text-white" readonly="" type="text" value="1"/>
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-r-lg">+</button>
+</div>
+<button class="flex-1 h-9 bg-primary hover:bg-green-400 text-black text-sm font-bold rounded-lg transition-colors shadow-sm hover:shadow active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                    Add
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 (Dates) -->
+<div class="bg-white dark:bg-card-dark rounded-xl overflow-hidden border border-[#f0f4f2] dark:border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300 group flex flex-col h-full">
+<div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-white/5">
+<span class="absolute top-3 left-3 z-10 bg-primary text-black text-xs font-bold px-2 py-1 rounded shadow-sm">Ramzan Special</span>
+<img alt="Heap of fresh Medjool dates" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Premium Medjool Dates" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8meEYbk1lnqJRAt8nX6aCq2o3ZlQh7jeqHJ_mBWfIi8SrN23itvMTdRn3JzV_mlMKrCApkvZV4mgOlTJyEy0gwLLkI99oGubDtzjb6FB-YOL1DatxRClroG7-QjuQdd75jsS2NFgr0wtfFHrwmSUbMGL-4mE3hHBMBqYwOyHOECTCTZ19rdwEg3bWWaHIdgBEJrPT3SFrj7dTe4njzKnLqd65cDjxAUViBB9QtQPdbHOLn2hI0kXmT5P9e2F7BJeZgQO2wZSqwae_"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-bold text-text-main dark:text-white text-lg leading-tight mb-1">Premium Medjool Dates</h3>
+<p class="text-xs text-text-muted">Grade A Quality</p>
+</div>
+</div>
+<div class="flex items-end gap-1 mb-4">
+<span class="text-xl font-bold text-primary">$12.99</span>
+<span class="text-xs text-text-muted mb-1">/ kg</span>
+</div>
+<div class="mt-auto pt-4 border-t border-dashed border-gray-100 dark:border-white/10 flex items-center justify-between gap-3">
+<div class="flex items-center border border-gray-200 dark:border-white/20 rounded-lg h-9 w-24 bg-[#f0f4f2] dark:bg-white/5">
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-l-lg">-</button>
+<input class="w-8 h-full bg-transparent border-none text-center text-sm font-semibold p-0 focus:ring-0 text-text-main dark:text-white" readonly="" type="text" value="1"/>
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-r-lg">+</button>
+</div>
+<button class="flex-1 h-9 bg-primary hover:bg-green-400 text-black text-sm font-bold rounded-lg transition-colors shadow-sm hover:shadow active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                    Add
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-white dark:bg-card-dark rounded-xl overflow-hidden border border-[#f0f4f2] dark:border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300 group flex flex-col h-full">
+<div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-white/5">
+<img alt="Sliced watermelon with seeds" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Fresh sliced watermelon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqSZqjVj3KYirJjFSbE8lS14_TeBondj3VznZzXjZWJlOIZyDF8L343kt-0_JOUmIiJoC72mbpa_WglhXasCbFde2BJVcj9mDJFS3CBUluoQ1wE6OuyNo4t5wOpEd1DdOM9EcnhvEz7MpRNy_No0pu9FxgYYR3uglKHTCwpl6LaS1BNcwCg9dMufnMIG221JtVHrxWHXbmMkPcARzkSq-REjodYSalWAAmLHus6U7VZZ1nkoG1Y9banmw4NoikFvqG7-oHMt6_uKmp"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-bold text-text-main dark:text-white text-lg leading-tight mb-1">Sweet Watermelon</h3>
+<p class="text-xs text-text-muted">Seedless Variety</p>
+</div>
+</div>
+<div class="flex items-end gap-1 mb-4">
+<span class="text-xl font-bold text-primary">$0.99</span>
+<span class="text-xs text-text-muted mb-1">/ kg</span>
+</div>
+<div class="mt-auto pt-4 border-t border-dashed border-gray-100 dark:border-white/10 flex items-center justify-between gap-3">
+<div class="flex items-center border border-gray-200 dark:border-white/20 rounded-lg h-9 w-24 bg-[#f0f4f2] dark:bg-white/5">
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-l-lg">-</button>
+<input class="w-8 h-full bg-transparent border-none text-center text-sm font-semibold p-0 focus:ring-0 text-text-main dark:text-white" readonly="" type="text" value="3"/>
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-r-lg">+</button>
+</div>
+<button class="flex-1 h-9 bg-primary hover:bg-green-400 text-black text-sm font-bold rounded-lg transition-colors shadow-sm hover:shadow active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                    Add
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-white dark:bg-card-dark rounded-xl overflow-hidden border border-[#f0f4f2] dark:border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300 group flex flex-col h-full">
+<div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-white/5">
+<img alt="Green avocado halved" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Fresh Avocado" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkwaGVlUg0m-ezmIihY1kuRZIZxzF88SloA2HJppjpbwrE3ONKOmExMqInnIumpbGfQ0zV4VQnEOJH9bUiHfUp1PjqXBYLPKiaPAe9pMXWOPDQKDf4M_iHh3nESXoBSTVZZLrwMdmYCQCK_9Zm-PAuaTjB41P8rfpBhowb8cH2gooWXYblVaEQlSv0R5c6Fi7cO1G0ainXXwwz8QyKd3FE1ZsyW0CelenBp3pNO4USjaINJRdeq1aJWhW1_wljdHadr3y0UsEcQiX6"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-bold text-text-main dark:text-white text-lg leading-tight mb-1">Ripe Avocado</h3>
+<p class="text-xs text-text-muted">Ready to Eat</p>
+</div>
+</div>
+<div class="flex items-end gap-1 mb-4">
+<span class="text-xl font-bold text-primary">$2.49</span>
+<span class="text-xs text-text-muted mb-1">/ unit</span>
+</div>
+<div class="mt-auto pt-4 border-t border-dashed border-gray-100 dark:border-white/10 flex items-center justify-between gap-3">
+<div class="flex items-center border border-gray-200 dark:border-white/20 rounded-lg h-9 w-24 bg-[#f0f4f2] dark:bg-white/5">
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-l-lg">-</button>
+<input class="w-8 h-full bg-transparent border-none text-center text-sm font-semibold p-0 focus:ring-0 text-text-main dark:text-white" readonly="" type="text" value="1"/>
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-r-lg">+</button>
+</div>
+<button class="flex-1 h-9 bg-primary hover:bg-green-400 text-black text-sm font-bold rounded-lg transition-colors shadow-sm hover:shadow active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                    Add
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="bg-white dark:bg-card-dark rounded-xl overflow-hidden border border-[#f0f4f2] dark:border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300 group flex flex-col h-full">
+<div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-white/5">
+<img alt="Bunch of bananas" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Organic Bananas" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSog2GAb2YKLYEKCDBGl5Qol9eySaoONxMdSRjbDoRJCFHHVX3Qc3UIC1Qdl6kULoZJ6iwfg3TyfVqxoog86OR6QV-6ph1IyFuQ5ymE44iHYtf0kgxS0sO1_Gydn6Pr2KPDmXuQzjqh6l4HJeTJT3NKWDP5ZTve-en49ohruEwAXaOgKQ078S-0l_IzV-aZypbtNFNvJIn752ihr7CkfDbGS1XBA36w9CPfauXZaLCgQEY48tIpIV_CzvDp8_zeSaMJjiuKlmM-K-R"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-bold text-text-main dark:text-white text-lg leading-tight mb-1">Organic Bananas</h3>
+<p class="text-xs text-text-muted">Local Farm</p>
+</div>
+</div>
+<div class="flex items-end gap-1 mb-4">
+<span class="text-xl font-bold text-primary">$1.20</span>
+<span class="text-xs text-text-muted mb-1">/ bunch</span>
+</div>
+<div class="mt-auto pt-4 border-t border-dashed border-gray-100 dark:border-white/10 flex items-center justify-between gap-3">
+<div class="flex items-center border border-gray-200 dark:border-white/20 rounded-lg h-9 w-24 bg-[#f0f4f2] dark:bg-white/5">
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-l-lg">-</button>
+<input class="w-8 h-full bg-transparent border-none text-center text-sm font-semibold p-0 focus:ring-0 text-text-main dark:text-white" readonly="" type="text" value="1"/>
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-r-lg">+</button>
+</div>
+<button class="flex-1 h-9 bg-primary hover:bg-green-400 text-black text-sm font-bold rounded-lg transition-colors shadow-sm hover:shadow active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                    Add
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="bg-white dark:bg-card-dark rounded-xl overflow-hidden border border-[#f0f4f2] dark:border-white/5 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300 group flex flex-col h-full">
+<div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-white/5">
+<img alt="Red apples in basket" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Red Delicious Apples" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZoSv5pRU7jQrgcbW7RnTSYrX3gpHWb7S5a1BOimm5O0WSLDUKeo9VxAdceq02IzbD5d9oSohKD1Rgjsz6HI2Mb-wXLiIcoRhJGmsuN-AGG096tihry501O08wQGzjQJGKjawitd-AaGwXd5a-COdygyv2U3a8S1TR3YNcjnoJGaIllj3zSWvPU0q4wpIzrwLeUcl0l2HTsKivmK_718-RZLqVA697Z5JyCgHWKt27eqZOl-qMIg-sVGGW0clnSA5TDSwWeh-5-F6e"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-bold text-text-main dark:text-white text-lg leading-tight mb-1">Red Delicious Apples</h3>
+<p class="text-xs text-text-muted">Washington State</p>
+</div>
+</div>
+<div class="flex items-end gap-1 mb-4">
+<span class="text-xl font-bold text-primary">$3.00</span>
+<span class="text-xs text-text-muted mb-1">/ kg</span>
+</div>
+<div class="mt-auto pt-4 border-t border-dashed border-gray-100 dark:border-white/10 flex items-center justify-between gap-3">
+<div class="flex items-center border border-gray-200 dark:border-white/20 rounded-lg h-9 w-24 bg-[#f0f4f2] dark:bg-white/5">
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-l-lg">-</button>
+<input class="w-8 h-full bg-transparent border-none text-center text-sm font-semibold p-0 focus:ring-0 text-text-main dark:text-white" readonly="" type="text" value="2"/>
+<button class="w-8 h-full flex items-center justify-center text-text-muted hover:text-primary transition-colors hover:bg-white/50 dark:hover:bg-white/10 rounded-r-lg">+</button>
+</div>
+<button class="flex-1 h-9 bg-primary hover:bg-green-400 text-black text-sm font-bold rounded-lg transition-colors shadow-sm hover:shadow active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                    Add
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex justify-center">
+<div class="flex items-center gap-2">
+<button class="size-10 flex items-center justify-center rounded-lg border border-gray-200 dark:border-white/10 text-text-muted hover:bg-gray-100 dark:hover:bg-white/5 disabled:opacity-50">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-lg bg-primary text-black font-bold shadow-md">1</button>
+<button class="size-10 flex items-center justify-center rounded-lg border border-gray-200 dark:border-white/10 text-text-main dark:text-white hover:bg-gray-100 dark:hover:bg-white/5">2</button>
+<button class="size-10 flex items-center justify-center rounded-lg border border-gray-200 dark:border-white/10 text-text-main dark:text-white hover:bg-gray-100 dark:hover:bg-white/5">3</button>
+<span class="px-2 text-text-muted">...</span>
+<button class="size-10 flex items-center justify-center rounded-lg border border-gray-200 dark:border-white/10 text-text-muted hover:bg-gray-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+</div>
+<!-- Footer -->
+<footer class="bg-white dark:bg-card-dark border-t border-[#f0f4f2] dark:border-white/10 mt-auto">
+<div class="max-w-7xl mx-auto px-4 lg:px-10 py-10">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">eco</span>
+<h4 class="text-lg font-bold text-text-main dark:text-white">Ramzan Fresh</h4>
+</div>
+<p class="text-text-muted text-sm max-w-xs">Delivering the freshest fruits for your Ramzan needs straight to your home.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-8 gap-y-4">
+<a class="text-text-muted hover:text-primary transition-colors text-sm font-medium" href="#">Privacy Policy</a>
+<a class="text-text-muted hover:text-primary transition-colors text-sm font-medium" href="#">Terms of Service</a>
+<a class="text-text-muted hover:text-primary transition-colors text-sm font-medium" href="#">Shipping Info</a>
+<a class="text-text-muted hover:text-primary transition-colors text-sm font-medium" href="#">Contact</a>
+</div>
+<div class="flex gap-4">
+<a class="text-text-muted hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">public</span>
+</a>
+<a class="text-text-muted hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">mail</span>
+</a>
+</div>
+</div>
+<div class="border-t border-gray-100 dark:border-white/5 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-text-muted">
+<p>© 2024 Ramzan Fresh. All rights reserved.</p>
+<p>Designed for Freshness</p>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Order Success - FruitDelight</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec5b",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102216",
+                        "text-dark": "#111813",
+                        "text-light": "#f0f4f2",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col text-text-dark dark:text-text-light transition-colors duration-200">
+<!-- Top Navigation -->
+<nav class="w-full bg-white dark:bg-[#1A2E22] border-b border-[#f0f4f2] dark:border-[#2C4034] sticky top-0 z-50">
+<div class="px-6 lg:px-40 py-3 flex items-center justify-between">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-3 text-text-dark dark:text-white group" href="#">
+<div class="size-8 text-primary">
+<!-- Logo Icon -->
+<span class="material-symbols-outlined text-4xl fill-1">eco</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">FruitDelight</h2>
+</a>
+<div class="hidden lg:flex items-center gap-8 pl-4">
+<a class="text-sm font-medium hover:text-primary transition-colors dark:text-gray-300" href="#">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors dark:text-gray-300" href="#">Fruits</a>
+<a class="text-sm font-medium text-primary" href="#">Ramzan Specials</a>
+<a class="text-sm font-medium hover:text-primary transition-colors dark:text-gray-300" href="#">Contact</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex relative w-64">
+<input class="w-full bg-[#f0f4f2] dark:bg-[#2C4034] border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary placeholder-gray-500 dark:text-white" placeholder="Search fruits..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-2 text-gray-500 text-[20px]">search</span>
+</div>
+<button class="flex items-center justify-center size-10 rounded-lg bg-[#f0f4f2] dark:bg-[#2C4034] hover:bg-primary/20 dark:hover:bg-primary/20 transition-colors text-text-dark dark:text-white">
+<span class="material-symbols-outlined text-[22px]">shopping_cart</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-lg bg-[#f0f4f2] dark:bg-[#2C4034] hover:bg-primary/20 dark:hover:bg-primary/20 transition-colors text-text-dark dark:text-white">
+<span class="material-symbols-outlined text-[22px]">person</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow w-full px-6 py-8 lg:px-40 lg:py-12">
+<div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
+<!-- Left Column: Success Message & Timeline -->
+<div class="lg:col-span-7 flex flex-col gap-8">
+<!-- Success Hero -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 text-primary mb-2">
+<span class="material-symbols-outlined text-6xl fill-1">check_circle</span>
+</div>
+<h1 class="text-4xl lg:text-5xl font-black tracking-tight text-text-dark dark:text-white">
+                        Order Confirmed!
+                    </h1>
+<p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-xl">
+                        Thank you for shopping with us, <span class="font-semibold text-text-dark dark:text-white">Fatima</span>. Your fresh fruits for Iftar are being carefully selected and packed.
+                    </p>
+</div>
+<!-- Timeline Section -->
+<div class="bg-white dark:bg-[#1A2E22] rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100 dark:border-[#2C4034]">
+<h3 class="text-lg font-bold mb-6 dark:text-white">Delivery Status</h3>
+<div class="grid grid-cols-[40px_1fr] gap-x-3">
+<!-- Step 1: Placed (Completed) -->
+<div class="flex flex-col items-center gap-1 pt-1">
+<div class="text-primary">
+<span class="material-symbols-outlined text-[28px] fill-1">check_circle</span>
+</div>
+<div class="w-[2px] bg-primary h-full min-h-8"></div>
+</div>
+<div class="flex flex-col pb-8">
+<p class="text-base font-bold text-text-dark dark:text-white">Order Placed</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">We have received your order.</p>
+</div>
+<!-- Step 2: Processing (Active) -->
+<div class="flex flex-col items-center gap-1">
+<div class="bg-primary size-7 rounded-full flex items-center justify-center text-background-dark shadow-lg shadow-primary/40 z-10">
+<span class="material-symbols-outlined text-[18px]">package_2</span>
+</div>
+<div class="w-[2px] bg-gray-200 dark:bg-gray-700 h-full min-h-8"></div>
+</div>
+<div class="flex flex-col pb-8 pt-0.5">
+<p class="text-base font-bold text-primary">Processing</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">We are preparing your items.</p>
+</div>
+<!-- Step 3: Out for Delivery -->
+<div class="flex flex-col items-center gap-1">
+<div class="bg-gray-200 dark:bg-gray-700 size-7 rounded-full flex items-center justify-center text-gray-400 dark:text-gray-500">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+</div>
+<div class="w-[2px] bg-gray-200 dark:bg-gray-700 h-full min-h-8"></div>
+</div>
+<div class="flex flex-col pb-8 pt-0.5">
+<p class="text-base font-medium text-gray-400 dark:text-gray-500">Out for Delivery</p>
+</div>
+<!-- Step 4: Delivered -->
+<div class="flex flex-col items-center gap-1">
+<div class="bg-gray-200 dark:bg-gray-700 size-7 rounded-full flex items-center justify-center text-gray-400 dark:text-gray-500">
+<span class="material-symbols-outlined text-[18px]">home_pin</span>
+</div>
+</div>
+<div class="flex flex-col pt-0.5">
+<p class="text-base font-medium text-gray-400 dark:text-gray-500">Delivered</p>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row gap-4 pt-2">
+<button class="flex-1 bg-primary hover:bg-[#0fd651] text-[#102216] h-12 rounded-xl font-bold text-base transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">map</span>
+                        Track Order
+                    </button>
+<button class="flex-1 bg-white dark:bg-[#1A2E22] border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#233b2d] text-text-dark dark:text-white h-12 rounded-xl font-bold text-base transition-all">
+                        Continue Shopping
+                    </button>
+</div>
+</div>
+<!-- Right Column: Summary & Info -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- Summary Card -->
+<div class="bg-white dark:bg-[#1A2E22] rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-[#2C4034]">
+<div class="p-6 border-b border-gray-100 dark:border-[#2C4034] flex justify-between items-center bg-background-light dark:bg-[#15261d]">
+<h3 class="text-lg font-bold dark:text-white">Order Summary</h3>
+<button class="text-primary hover:text-[#0fd651] flex items-center gap-1 text-sm font-semibold">
+<span class="material-symbols-outlined text-[18px]">print</span>
+                            Print
+                        </button>
+</div>
+<div class="p-6 flex flex-col gap-5">
+<div class="flex justify-between items-start">
+<p class="text-gray-500 dark:text-gray-400 text-sm">Order Number</p>
+<p class="text-text-dark dark:text-white font-mono font-medium">#FD-98214</p>
+</div>
+<div class="flex justify-between items-start">
+<p class="text-gray-500 dark:text-gray-400 text-sm">Estimated Delivery</p>
+<div class="text-right">
+<p class="text-text-dark dark:text-white font-medium">Today, 5:00 PM - 6:00 PM</p>
+<p class="text-primary text-xs font-semibold flex items-center justify-end gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px]">dark_mode</span>
+                                    Arriving before Iftar
+                                </p>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<p class="text-gray-500 dark:text-gray-400 text-sm">Payment Method</p>
+<div class="flex items-center gap-2 text-text-dark dark:text-white font-medium">
+<span class="material-symbols-outlined text-gray-400 text-[20px]">credit_card</span>
+<span class="text-sm">•••• 8821</span>
+</div>
+</div>
+<div class="w-full h-px bg-gray-100 dark:bg-[#2C4034] my-1"></div>
+<div class="flex justify-between items-center">
+<p class="text-lg font-bold text-text-dark dark:text-white">Total Amount</p>
+<p class="text-xl font-bold text-primary">$42.50</p>
+</div>
+</div>
+</div>
+<!-- Featured Image -->
+<div class="w-full aspect-[4/3] rounded-2xl overflow-hidden relative group">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 flex items-end p-6">
+<p class="text-white font-medium">Fresh seasonal fruits picked for your family.</p>
+</div>
+<div class="w-full h-full bg-center bg-cover transition-transform duration-700 group-hover:scale-105" data-alt="Close up of a basket full of fresh colorful fruits like oranges, apples, and grapes" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBOGn2T5JjuzNLMIO1qTywjZuKbd-hJe57Uh98u6VDT1vYyNRXumAsQe3IHuZVMINCfycIxGa-dJvD6UZDThJBqRs2jBh9sNH74qiiBmyHs6OlmzzunrA8Yhqu2mxQ4fFpFUPU8l_iyERQ7_j6MzPr8b6yyfrhYeE51gJjxsI4IVWjevRXMx-QGddQ2el5vhHXapxyVF3wh_eDHYIrs7Iusfu_gLWnK_t0DlkmHEQ9jvET1te3wbsF54310B8K4uSmack5Gkbllhv4m');">
+</div>
+</div>
+<!-- Support Link -->
+<div class="flex justify-center py-4">
+<p class="text-sm text-gray-500 dark:text-gray-400">
+                        Need help with your order? 
+                        <a class="text-primary font-semibold hover:underline" href="#">Contact Support</a>
+</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Optional Footer for completeness -->
+<footer class="mt-auto py-8 border-t border-[#f0f4f2] dark:border-[#2C4034] text-center">
+<p class="text-sm text-gray-400 dark:text-gray-500">© 2024 FruitDelight. All rights reserved.</p>
+</footer>
+</body></html>

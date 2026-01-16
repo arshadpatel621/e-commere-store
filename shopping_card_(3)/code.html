@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FruitBox - Shopping Cart</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec5b",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102216",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#182e1e",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col overflow-x-hidden text-slate-900 dark:text-slate-100">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-gray-100 dark:border-white/10 px-4 lg:px-10 py-3 shadow-sm">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-tight dark:text-white">FruitBox</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Fruits</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Dates &amp; Dry Fruits</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Ramzan Gifts</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative flex items-center justify-center p-2 rounded-lg bg-background-light dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors group">
+<span class="material-symbols-outlined text-slate-900 dark:text-white group-hover:text-primary">shopping_cart</span>
+<span class="absolute -top-1 -right-1 bg-primary text-background-dark text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">3</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 lg:px-10 py-8 lg:py-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+<!-- Left Column: Cart Items -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Heading -->
+<div class="flex flex-col gap-1 pb-4 border-b border-gray-200 dark:border-white/10">
+<h1 class="text-3xl lg:text-4xl font-black tracking-tight">Your Shopping Cart</h1>
+<p class="text-gray-500 dark:text-gray-400 font-medium">3 items in your cart ready for Iftar delivery</p>
+</div>
+<!-- Cart Items List -->
+<div class="flex flex-col gap-4">
+<!-- Item 1 -->
+<div class="group bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-sm border border-transparent hover:border-primary/30 transition-all">
+<div class="flex flex-col sm:flex-row gap-5">
+<div class="shrink-0">
+<div class="bg-gray-100 dark:bg-white/5 rounded-lg w-full h-48 sm:size-28 bg-center bg-cover" data-alt="Premium dark Ajwa dates in a bowl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDPx8bOOxqfJOLLECcCoKvPocFvQ2dBV2FpH9c4zlp9xUpTLOSU6rWZJlSQsuQAlGjLg1BNhnkNTcSf-EaDB-3bhy8S6g-_nVj5LEXiP1yiCagsZvzV3qT5joXA_je8oAyaK-0S0dHPeA8lmmu99FqzoNPsvaITarftxicQaZkSifQA2OYpP_lp-cs8ud-u3lduknNaFFFQYsLTQYvUGH66fqL1hkuWivCdykuXHJFN7wHMQC80EXtlPwckf342C710SnA7FwtXJfU8");'>
+</div>
+</div>
+<div class="flex flex-1 flex-col justify-between">
+<div class="flex justify-between items-start gap-2">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Premium Ajwa Dates</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Pack Size: 500g</p>
+</div>
+<button aria-label="Remove item" class="text-gray-400 hover:text-red-500 transition-colors p-1">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+<div class="flex flex-wrap items-end justify-between gap-4 mt-4">
+<div class="flex items-center bg-background-light dark:bg-background-dark rounded-lg p-1 border border-gray-200 dark:border-white/10">
+<button class="size-8 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-white/10 text-slate-700 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<input class="w-10 bg-transparent text-center text-sm font-bold border-none focus:ring-0 p-0 dark:text-white" type="number" value="2"/>
+<button class="size-8 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-white/10 text-slate-700 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<div class="text-right">
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-0.5">$15.00 / pack</p>
+<p class="text-lg font-bold text-primary">$30.00</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-sm border border-transparent hover:border-primary/30 transition-all">
+<div class="flex flex-col sm:flex-row gap-5">
+<div class="shrink-0">
+<div class="bg-gray-100 dark:bg-white/5 rounded-lg w-full h-48 sm:size-28 bg-center bg-cover" data-alt="Whole large green watermelon on wooden table" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAxB-jMoCSEpXw_0SbV2zNnIkOU2k6NNTBT0WgmvhYhzofQ38sRKmnfFNI3PCtdFjErwLR46boJyPRRXbBdPCWouHBsE60Ky3wcSkb9Yo0SMy64sF56IbKhzw6sMBO737OTjKEuZp-eftJhAXteq5YHuFKFjOYS6ddcl1qx-YFXh53oikzEBDn2kK9zJgwPePcaCLn5XDJfk1kmlM32Kj6mpyG0ZcvMX8yXw1NA2bqYvD5UmNjYZKcQgH4GlG3dN4ZgFPIf5F7TGRmY");'>
+</div>
+</div>
+<div class="flex flex-1 flex-col justify-between">
+<div class="flex justify-between items-start gap-2">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Large Watermelon (Whole)</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Average Weight: 4-5kg</p>
+</div>
+<button aria-label="Remove item" class="text-gray-400 hover:text-red-500 transition-colors p-1">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+<div class="flex flex-wrap items-end justify-between gap-4 mt-4">
+<div class="flex items-center bg-background-light dark:bg-background-dark rounded-lg p-1 border border-gray-200 dark:border-white/10">
+<button class="size-8 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-white/10 text-slate-700 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<input class="w-10 bg-transparent text-center text-sm font-bold border-none focus:ring-0 p-0 dark:text-white" type="number" value="1"/>
+<button class="size-8 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-white/10 text-slate-700 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<div class="text-right">
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-0.5">$5.50 / unit</p>
+<p class="text-lg font-bold text-primary">$5.50</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group bg-surface-light dark:bg-surface-dark p-4 rounded-xl shadow-sm border border-transparent hover:border-primary/30 transition-all">
+<div class="flex flex-col sm:flex-row gap-5">
+<div class="shrink-0">
+<div class="bg-gray-100 dark:bg-white/5 rounded-lg w-full h-48 sm:size-28 bg-center bg-cover" data-alt="Colorful cut fruit mix in a bowl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCjXbWbKcQv_-1TQB-dRVv908BWSyj8wyOJOPpX6k9t3-I8BsgFNY4f3FVBu_vvekKKBOId7QgBmZyYnpBE7RV6B7xrfWCt5A8eEANufF1r5QSVOQOM_8sa6Lhs0TICEWW-GDJ4g0520rL2eaLYwfTdKdCXNucHStl2-56VKfd4-aesZ6cmQ6KDTEmIo4tXDJwndMGDFAiOJQ1qrF7S2KwSUVH04WizTEI3H0eAEMh4j1gOtgfmLqM5X4LYzkbj7cKA-UVtfKTalLFL");'>
+</div>
+</div>
+<div class="flex flex-1 flex-col justify-between">
+<div class="flex justify-between items-start gap-2">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Fresh Fruit Chaat Mix</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400">Family Bowl (1kg)</p>
+</div>
+<button aria-label="Remove item" class="text-gray-400 hover:text-red-500 transition-colors p-1">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+<div class="flex flex-wrap items-end justify-between gap-4 mt-4">
+<div class="flex items-center bg-background-light dark:bg-background-dark rounded-lg p-1 border border-gray-200 dark:border-white/10">
+<button class="size-8 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-white/10 text-slate-700 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<input class="w-10 bg-transparent text-center text-sm font-bold border-none focus:ring-0 p-0 dark:text-white" type="number" value="1"/>
+<button class="size-8 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-white/10 text-slate-700 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<div class="text-right">
+<p class="text-xs text-gray-500 dark:text-gray-400 mb-0.5">$12.00 / bowl</p>
+<p class="text-lg font-bold text-primary">$12.00</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<a class="inline-flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors mt-2" href="#">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+                    Continue Shopping
+                </a>
+</div>
+<!-- Right Column: Order Summary -->
+<div class="lg:col-span-4">
+<div class="sticky top-24 flex flex-col gap-6">
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-gray-100 dark:border-white/10">
+<h2 class="text-xl font-bold mb-6 text-slate-900 dark:text-white">Order Summary</h2>
+<div class="flex flex-col gap-4 mb-6 border-b border-gray-100 dark:border-white/10 pb-6">
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500 dark:text-gray-400">Subtotal</span>
+<span class="font-bold text-slate-900 dark:text-white">$47.50</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500 dark:text-gray-400">Delivery</span>
+<span class="text-primary font-bold">Free</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-gray-500 dark:text-gray-400">Tax (5%)</span>
+<span class="font-bold text-slate-900 dark:text-white">$2.38</span>
+</div>
+</div>
+<div class="flex justify-between items-center mb-8">
+<span class="text-lg font-bold text-slate-900 dark:text-white">Total</span>
+<span class="text-2xl font-black text-slate-900 dark:text-white">$49.88</span>
+</div>
+<!-- Promo Code -->
+<div class="mb-6">
+<div class="relative flex items-center">
+<input class="w-full bg-background-light dark:bg-background-dark border-none rounded-lg py-3 pl-4 pr-12 text-sm focus:ring-2 focus:ring-primary focus:ring-opacity-50 placeholder-gray-400 dark:text-white" placeholder="Promo Code" type="text"/>
+<button class="absolute right-2 text-xs font-bold text-primary hover:text-green-400 p-2">APPLY</button>
+</div>
+</div>
+<button class="w-full bg-primary text-background-dark text-center font-bold text-base py-4 rounded-lg hover:bg-[#0fd651] transition-all shadow-[0_4px_14px_0_rgba(19,236,91,0.39)] flex justify-center items-center gap-2 group">
+<span>Proceed to Checkout</span>
+<span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<div class="mt-6 flex flex-col gap-3">
+<div class="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 justify-center">
+<span class="material-symbols-outlined text-base">lock</span>
+                                Secure SSL Encrypted Checkout
+                            </div>
+<div class="flex justify-center gap-2 opacity-60 grayscale hover:grayscale-0 transition-all">
+<div class="h-6 w-10 rounded bg-gray-200 dark:bg-white/20 bg-center bg-cover" data-alt="Visa Card Logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAJJF6Ro42GdhExtWJZiuEop20xj8hmoi992724OMd0OFT0111RHMzqWHvFhiH_K0GaLe1Luff-Ujkg02mfsIk6t-2nwJioIwWOpvyc12IZhPSZX67IPKK86W3kHlgP-jFZkDm6Hcma2MOyvUZXfmy99tO_rpaPoFwAiPiNXDbs5T_8QO-RK_DUv_YZ0-ORoz_aNZBP8w9voJ8YOREkCb198pSmaZ4KSNM6rYoR25a-LOOAGjNxlXFHAv12CwaMIU047Z4Gw5cxRnX2');"></div>
+<div class="h-6 w-10 rounded bg-gray-200 dark:bg-white/20 bg-center bg-cover" data-alt="Mastercard Logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCapBcmJkfph8Yf_Zwn0zvVYhHpo-vtqTnx6PPtwIaGL3XjbQ-hd-ICjHdV-JLWTWZbCopd1GfGEs8Z2usFLNBdnq-Gjm4TCv0jsA4lpxMBNVyUeNstEFtKuIQ9be--Ds49BSMvuPhasbtfDkN5qlXHI8SojrMPB3MBFt2Sm5cLQgbWmVY8Aqit2WCtje9aYz32fUNSqo5ag6towcSZQvaiHGz4B9bRv49Xq8wwEz2-l7Gyz6xzN5EUXQ8pYI1bzHq3DKs8sljuwmz2');"></div>
+<div class="h-6 w-10 rounded bg-gray-200 dark:bg-white/20 bg-center bg-cover" data-alt="Amex Logo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB0sG0EtCHv7BR1y546jh64eItmL6k4lFYN5-2EJxGYBsLE28uOThB7PpxfYVoQxaa5bqV4lVfoxiGOjnQ99lWQBHI98z5rpYSz61sQXzTvH3j2ZIb4dURbQK1KiMNcfrQ8J2iPV188bEe-NhMdu4GvSxN0Cpp7sZFtHg0Jw8N5Vln8JJCLujBYf387vijjoEyYDr63ZgIfPVq93j-Yj8trrp-DwuRonaIcOugwHHIqOsijLHo37yzq3Xmf9c4QRFZ4fbafED8JXbv8');"></div>
+</div>
+</div>
+</div>
+<!-- Free Shipping Promo -->
+<div class="bg-primary/10 rounded-xl p-4 border border-primary/20 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1">local_shipping</span>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Free Priority Delivery</p>
+<p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Guaranteed delivery before Iftar for orders placed within 2 hours.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recommended Section -->
+<div class="mt-20 border-t border-gray-200 dark:border-white/10 pt-10">
+<h3 class="text-2xl font-bold mb-6 text-slate-900 dark:text-white">You might also like</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Rec Item 1 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg aspect-square mb-3">
+<div class="bg-gray-100 dark:bg-white/5 w-full h-full bg-center bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Red Rooh Afza bottle with condensation" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAkF9q94arOetmZ4R5sl17Csg9h6_1V8xIO5J9ESzEkLwsaFGZZGnb5tXUWyXv6_St17U1eykWTfMwofN7cLakxGsyDNcscfTjSa29kx0VtoMvrQmGJHSEXZoE46KA82OQMipdKLvVs2qCy_vWm0DsKog-SwIPT2U5zd3WVmSEvMb-r6MC_z0FeZf8qw9fnF5OSt-P1Hvm4pAhlKkIpU1uSKoObQj3LwM8QUie1qSnkzNOhId40CXvoAonBpKXA7OlFOQp6ABOC_CoG");'>
+</div>
+<button class="absolute bottom-3 right-3 bg-white text-background-dark p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 hover:bg-primary">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+</button>
+</div>
+<h4 class="font-bold text-slate-900 dark:text-white">Rooh Afza Syrup</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400">$4.50</p>
+</div>
+<!-- Rec Item 2 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg aspect-square mb-3">
+<div class="bg-gray-100 dark:bg-white/5 w-full h-full bg-center bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Bowl of mixed dried nuts and raisins" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCxSZyf2yxNqjxt_z1hYG3GazueKyin8RGNIqOx6czcmocJ6Ea85wp5ThyzRXt54VBUNEsJN0i-WNHaNFobnLSlsrt6A45y_uamvM5AgkwC73wKmCld2AOVQ1tOd3m0V5qN62V6x6zIOq3EnBcy3EOC5eX-BbE55IGZ6kH0kGFzk9VBEBCQLwcMtgHLtXB2L3gfCrPDODhvQVZTadQGoMshYfCcDQraTo9SL1ByiNxDIGtJcRsIwR5Zm4hTo3FFr9nK1fCjdBHDKSk-");'>
+</div>
+<button class="absolute bottom-3 right-3 bg-white text-background-dark p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 hover:bg-primary">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+</button>
+</div>
+<h4 class="font-bold text-slate-900 dark:text-white">Premium Mixed Nuts</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400">$18.00</p>
+</div>
+<!-- Rec Item 3 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg aspect-square mb-3">
+<div class="bg-gray-100 dark:bg-white/5 w-full h-full bg-center bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Pile of fresh yellow bananas" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCiggLyJYO1M4Lk2-3wADGqrj954FyDp5vm7SNUps7vnyliJ847FSBPBJA8x1CGpnRjBscR_67mSVxuxvSBnRw7QHVmrkzDw67dD3IQyjz2laI7cE_Gb51y2k81LEpWZ-kSYpvd0GT16_aByGojLdEbgTF8zoaui_xSvQn5jZrrX9ukkfZUFUoMK0VFz3T18rUoVDthoveqZkoeONFas072dj1KWAVB6ln8dVPIGr5PKA84tgr-5jJa2y5FKG8a1Q60brglWxjC8avp");'>
+</div>
+<button class="absolute bottom-3 right-3 bg-white text-background-dark p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 hover:bg-primary">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+</button>
+</div>
+<h4 class="font-bold text-slate-900 dark:text-white">Organic Bananas (1 Dozen)</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400">$3.00</p>
+</div>
+<!-- Rec Item 4 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg aspect-square mb-3">
+<div class="bg-gray-100 dark:bg-white/5 w-full h-full bg-center bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close up of fresh strawberries in a basket" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCLyctjWliptXAYi3_SBjL7yOe2gh2IW6JNc1oUq4o6bc2o5eQzqGGFvzKflIbN4ZX2JNrkvEsjib428AoXmUM4R3txKjo1-bumXbyI85GlI0xce8uVCcj6NYL76FZdxnPniI0XQiheU8cSfnSl8IjMd6U9EGwPr0HUWz82ytaCtuW4NwnzNkLqmR9J1tz4gB1c5PCW7EYrTigDHwMrc0_gfjThHWaMCtADAu6HIkwK2KZ8Tjj1FRdK9am4Rfe_RyJR8O6eVnopPDex");'>
+</div>
+<button class="absolute bottom-3 right-3 bg-white text-background-dark p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 hover:bg-primary">
+<span class="material-symbols-outlined text-sm font-bold">add</span>
+</button>
+</div>
+<h4 class="font-bold text-slate-900 dark:text-white">Fresh Strawberries</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400">$6.50</p>
+</div>
+</div>
+</div>
+</main>
+</body></html>
