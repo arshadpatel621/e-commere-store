@@ -15,6 +15,7 @@ export default function DashboardLayout() {
     const navItems = profile?.role === 'admin' ? [
         { label: 'Overview', icon: 'dashboard', path: '/admin' },
         { label: 'Products', icon: 'inventory_2', path: '/admin/products' },
+        { label: 'Categories', icon: 'category', path: '/admin/categories' },
         { label: 'Orders', icon: 'shopping_bag', path: '/admin/orders' },
         { label: 'Manage Users', icon: 'group', path: '/admin/users' },
     ] : [

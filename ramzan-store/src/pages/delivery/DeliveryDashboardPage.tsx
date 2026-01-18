@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -93,24 +94,43 @@ export default function DeliveryDashboardPage() {
         else fetchAssignedOrders();
     };
 
+    const openMap = (address: any) => {
+        if (address.location && address.location.lat && address.location.lng) {
+            window.open(`https://www.google.com/maps?q=${address.location.lat},${address.location.lng}`, '_blank');
+        } else {
+            const query = encodeURIComponent(address.fullAddress + ', ' + address.city + ' ' + address.pincode);
+            window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+        }
+    };
+
     if (loading) return <div className="p-6 text-center">Loading deliveries...</div>;
 
     return (
         <div className="max-w-4xl mx-auto space-y-6">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold text-text-main dark:text-white">My Deliveries</h1>
-                <button
-                    onClick={toggleLocationSharing}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm transition-all ${isSharingLocation
-                        ? 'bg-green-100 text-green-700 hover:bg-green-200 animate-pulse'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                        }`}
-                >
-                    <span className="material-symbols-outlined text-[20px]">
-                        {isSharingLocation ? 'location_on' : 'location_off'}
-                    </span>
-                    {isSharingLocation ? 'Sharing Location' : 'Go Online'}
-                </button>
+                <div className="flex gap-2">
+                    <Link to="/delivery/history" className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">
+                        <span className="material-symbols-outlined text-[20px]">history</span>
+                        <span className="hidden sm:inline">History</span>
+                    </Link>
+                    <Link to="/delivery/profile" className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">
+                        <span className="material-symbols-outlined text-[20px]">person</span>
+                        <span className="hidden sm:inline">Profile</span>
+                    </Link>
+                    <button
+                        onClick={toggleLocationSharing}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm transition-all ${isSharingLocation
+                            ? 'bg-green-100 text-green-700 hover:bg-green-200 animate-pulse'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            }`}
+                    >
+                        <span className="material-symbols-outlined text-[20px]">
+                            {isSharingLocation ? 'location_on' : 'location_off'}
+                        </span>
+                        {isSharingLocation ? 'Sharing Location' : 'Go Online'}
+                    </button>
+                </div>
             </div>
 
             {orders.length === 0 ? (
@@ -133,9 +153,17 @@ export default function DeliveryDashboardPage() {
                             <div className="space-y-3 mb-6">
                                 <div className="flex gap-3 text-sm">
                                     <span className="material-symbols-outlined text-gray-400">location_on</span>
-                                    <p className="text-text-muted flex-1">{order.address_details?.fullAddress}, {order.address_details?.city} - {order.address_details?.pincode}</p>
+                                    <div className="flex-1">
+                                        <p className="text-text-muted mb-1">{order.address_details?.fullAddress}, {order.address_details?.city} - {order.address_details?.pincode}</p>
+                                        <button
+                                            onClick={() => openMap(order.address_details)}
+                                            className="text-primary hover:underline text-xs font-bold flex items-center gap-1"
+                                        >
+                                            <span className="material-symbols-outlined text-[14px]">map</span>
+                                            View on Map {order.address_details?.location ? '(Precise)' : '(Search)'}
+                                        </button>
+                                    </div>
                                 </div>
-                                {/* ... existing details ... */}
                                 <div className="flex gap-3 text-sm">
                                     <span className="material-symbols-outlined text-gray-400">call</span>
                                     <p className="text-text-muted">Customer contact info hidden (Simulated)</p>
@@ -157,7 +185,11 @@ export default function DeliveryDashboardPage() {
                                     Out for Delivery
                                 </button>
                                 <button
-                                    onClick={() => updateStatus(order.id, 'Delivered')}
+                                    onClick={() => {
+                                        if (window.confirm('Are you sure you want to mark this order as Delivered? This cannot be undone.')) {
+                                            updateStatus(order.id, 'Delivered');
+                                        }
+                                    }}
                                     className="px-4 py-2 bg-primary text-black rounded-lg text-sm font-bold hover:bg-[#0fd650] shadow-sm transform active:scale-95 transition-all"
                                 >
                                     Mark Delivered

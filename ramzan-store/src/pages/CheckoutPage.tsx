@@ -3,10 +3,13 @@ import Layout from '../components/Layout';
 import { useCart } from '../context/CartContext';
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../hooks/useAuth';
+import { sendOrderEmail } from '../utils/emailService';
 
 export default function CheckoutPage() {
     const navigate = useNavigate();
     const { items, totalAmount, clearCart } = useCart();
+    const { user } = useAuth();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -61,20 +64,29 @@ export default function CheckoutPage() {
         };
 
         try {
-            const { error: insertError } = await supabase.from('orders').insert({
+            const { data: orderData, error: insertError } = await supabase.from('orders').insert({
                 customer_name: customerName,
                 customer_email: customerEmail,
                 address_details: address,
                 items: items,
                 total_amount: finalTotal,
-                status: 'Pending'
-            });
+                status: 'Pending',
+                user_id: user?.id
+            }).select().single();
 
             if (insertError) throw insertError;
 
+            // Send Email Notification (Wait for it to ensure delivery)
+            await sendOrderEmail({
+                order_id: orderData.id,
+                customer_name: customerName,
+                total_amount: finalTotal,
+                items: items
+            });
+
             // Success
             clearCart();
-            navigate('/order-confirmed');
+            navigate('/order-confirmed', { state: { orderId: orderData.id } });
         } catch (err: any) {
             console.error('Order submission error:', err);
             setError(err.message || 'Failed to place order. Please try again.');

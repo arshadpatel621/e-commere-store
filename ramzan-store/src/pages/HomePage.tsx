@@ -2,7 +2,20 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import ProductCard from '../components/ProductCard';
 
+import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
+
 export default function HomePage() {
+    const [categories, setCategories] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const { data } = await supabase.from('categories').select('*').limit(6);
+            if (data) setCategories(data);
+        };
+        fetchCategories();
+    }, []);
+
     const featuredProducts = [
         {
             id: "101",
@@ -117,21 +130,20 @@ export default function HomePage() {
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                     {/* Category Items */}
-                    {[
-                        { name: "Dates (Khajur)", sub: "Premium Quality", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuC8TtxbtxfHrbsTlGnonzRofuJRvuFQmeEJiBVIdTpzllJ-xaEtWFGVWrmecSleNPW7lp9JONmh-zCqTPSou4YGjz9DpP3tZhk9fMgwPKZ6xjS8B_Flt3_vFC7vd84I0ZxqR0R4mK13xLfz38p_KVkJTVymqZLHqQ3aoTy6JYZgMPPrkXM_Euh-s8S2JCNAnJioYO-p-iuy0fuwqN06IjlOZkN5bC98mN0VRFvv-Ucnox0p8yZySY5jE1CF5m3Goh-YHbvLZxwkF8_f", link: "/shop?category=dates" },
-                        { name: "Watermelons", sub: "Juicy & Fresh", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBd4_7HgRo-OYKjYIfvbTfh214sJBVphLjZFJwU-rDuYZEHuLFDLDTg9ZatAze2m9Gyp1vAZBQbC2xBGbxcbDPYDgYdqf6vCeJv7lfu2uyq_Qkkd4UsBnbW6eMeqZiEYSOe-qGzhyfo-i_oN4gpkWbKf8kRtb7U6xMZ117WmIu9kCboGOE54vlk1IW93qMhxGWT9kVbVAUAWxEVsZQa_LN76HkGW4SwA6ge8cDbyMO0UxunAw3TbTh6Pak5nD3rARcuHcrvlGV2YuHZ", link: "/shop?category=watermelons" },
-                        { name: "Mangoes", sub: "Seasonal Special", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCHvM7vqibpxeQO3iwDqZQjLETZPQ-0cA_OErqPpq22B6Uy6H5PXgDFR4IZnDurgruAuUm1I42zrypjRkbR_jlGf623Ff-ZOYK8FYorxruBxe9666eiTmd_YMTj9ap2WRttI6GWnlxuX6YJbqd_LSfOmLx1aobXA5cfa4ZauxTP1tI23qXbQM4aALhLhDi2-RYypYWAOASC_2Xw6jnNqhlHdAowgl7WvZjH3O4nmY_IR57dXiZ3veElVuaqBInGn_i79yOqmzrhYnam", link: "/shop?category=mangoes" },
-                        { name: "Apples & Pears", sub: "Crisp & Sweet", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDm-pIswOLHcorC0944nuR6WJRjYGRlP5xLWkbgQZtp2jD7s3f5DqsxT6g0HfUc3HBYlxleRwyud0qnvjqelyei30c1b8bi2dTwAh2PMndw1ou7X7sE7dt9LlJGhgaK0JTQENLBq0lJm1uKgSXrIDBtw15OphtfhbeElM-2hr3Ced1tC_NHwlezbsBNpwdEbJz_36xwhkUhQRJ7VNrvvT2_lx2wqULia1u18E9PDvu8oZzzlNappcEnTUGm7PHaf9XDTSObylWCKb8_", link: "/shop" },
-                        { name: "Berries", sub: "Antioxidant Rich", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCnEymL8q5ajxFJx7Ux68ocoV7uQVMJc7XtoNPrYeatGbVLc1IBk30eha08lkDNRjP-CmUCkWeI77_SIPtTzqpqee6IKzSiBfBDJN9JnOg7pHd-2Y51kLPWNRFXtLsavlqDISoj3ztrmtIsn91Xks_vVVcO_dske6JbiVMZcp13TNsQCzC6Z6nrKyypYFVnBsxIhe_-WpQBRaURKomx1gs4LAHgZdmcFBRE7ufykSJsTbYg2gtp_7T1XFhOz6LlcJIi4T0xBPzeajTp", link: "/shop" },
-                        { name: "Fruit Baskets", sub: "Perfect Gifts", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDjs8J34dIduNsMVjwFWsqOnjuitHOpKKbfrMcFGfqoNEGCQlX6yK633mpQTgO3f_A3WPbRHewMgxxIgEhTdkMfUuoZDtX92e-JMAOSXQcLFHT9DqEpGNSnCu1XA0XELxJSYqBZOWSluCe59advxU15oxdg7HVheRXl9xZaPPUQa3PcM9VqIpvXuuDhPSP5YCUow0-mnmixZ4vdLST_vNWY1EwOGYIFAQ2BghHe4lg0kg8xNwTNf6SCIyBwUIH__ofIqIh_fy0A6LVC", link: "/shop" }
-                    ].map((cat, idx) => (
-                        <Link key={idx} to={cat.link} className="group flex flex-col gap-4 text-center items-center">
+                    {categories.map((cat, idx) => (
+                        <Link key={idx} to={`/shop?category=${cat.slug}`} className="group flex flex-col gap-4 text-center items-center">
                             <div className="w-full aspect-square rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-all ring-2 ring-transparent group-hover:ring-primary/50 relative">
-                                <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" style={{ backgroundImage: `url("${cat.img}")` }}></div>
+                                {cat.image_url ? (
+                                    <div className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" style={{ backgroundImage: `url("${cat.image_url}")` }}></div>
+                                ) : (
+                                    <div className="w-full h-full bg-primary/10 flex items-center justify-center">
+                                        <span className="material-symbols-outlined text-4xl text-primary">image</span>
+                                    </div>
+                                )}
                             </div>
                             <div>
-                                <p className="text-text-main dark:text-white text-base font-bold group-hover:text-primary transition-colors">{cat.name}</p>
-                                <p className="text-text-muted text-xs font-medium">{cat.sub}</p>
+                                <p className="text-text-main dark:text-white text-base font-bold group-hover:text-primary transition-colors capitalize">{cat.name}</p>
+                                <p className="text-text-muted text-xs font-medium line-clamp-1">{cat.description || 'Shop Now'}</p>
                             </div>
                         </Link>
                     ))}

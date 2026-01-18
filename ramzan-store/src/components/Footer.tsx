@@ -9,10 +9,10 @@ export default function Footer() {
                     <div className="flex flex-col gap-4">
                         <div className="flex items-center gap-2 text-text-main dark:text-white">
                             <span className="material-symbols-outlined text-[28px] text-primary">nutrition</span>
-                            <span className="text-xl font-bold">Ramzan Fruits</span>
+                            <span className="text-xl font-bold">ZestMart</span>
                         </div>
                         <p className="text-text-muted text-sm leading-relaxed">
-                            Delivering freshness and blessings to your doorstep. Your trusted partner for high-quality fruits this Ramzan.
+                            Delivering freshness and zest to your doorstep. Your trusted partner for high-quality fruits.
                         </p>
                         <div className="flex gap-4 mt-2">
                             <a href="#" className="size-8 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-text-main dark:text-white hover:bg-primary hover:text-white transition-colors">
@@ -34,17 +34,17 @@ export default function Footer() {
                     {/* Company */}
                     <div className="flex flex-col gap-4">
                         <h4 className="font-bold text-text-main dark:text-white">Company</h4>
-                        <Link to="#" className="text-text-muted hover:text-primary text-sm">About Us</Link>
-                        <Link to="#" className="text-text-muted hover:text-primary text-sm">Contact</Link>
-                        <Link to="#" className="text-text-muted hover:text-primary text-sm">Privacy Policy</Link>
-                        <Link to="#" className="text-text-muted hover:text-primary text-sm">Terms of Service</Link>
+                        <Link to="/about" className="text-text-muted hover:text-primary text-sm">About Us</Link>
+                        <Link to="/about" className="text-text-muted hover:text-primary text-sm">Contact</Link>
+                        <Link to="/privacy" className="text-text-muted hover:text-primary text-sm">Privacy Policy</Link>
+                        <Link to="/terms" className="text-text-muted hover:text-primary text-sm">Terms of Service</Link>
                     </div>
                     {/* Contact */}
                     <div className="flex flex-col gap-4">
                         <h4 className="font-bold text-text-main dark:text-white">Contact Us</h4>
                         <div className="flex items-start gap-3 text-text-muted text-sm">
                             <span className="material-symbols-outlined text-[20px] mt-0.5">location_on</span>
-                            <span>123 Fruit Market Road,<br />City Center, Dubai, UAE</span>
+                            <span>Bidar old city 585401<br />fruit market road</span>
                         </div>
                         <div className="flex items-center gap-3 text-text-muted text-sm">
                             <span className="material-symbols-outlined text-[20px]">call</span>
@@ -53,7 +53,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="border-t border-neutral-100 dark:border-neutral-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-xs text-text-muted">© 2024 Ramzan Fruits. All rights reserved.</p>
+                    <p className="text-xs text-text-muted">© 2024 ZestMart. All rights reserved.</p>
                     <div className="flex gap-4">
                         {/* Payment icons placeholder */}
                         <div className="h-6 w-10 bg-neutral-200 dark:bg-neutral-700 rounded"></div>

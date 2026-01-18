@@ -58,7 +58,8 @@ export default function AdminOrdersPage() {
         <div className="max-w-6xl mx-auto">
             <h1 className="text-3xl font-bold mb-6 text-text-main dark:text-white">Order Management</h1>
 
-            <div className="bg-white dark:bg-card-dark rounded-xl border border-gray-100 dark:border-white/5 overflow-hidden">
+            {/* Desktop Table View */}
+            <div className="hidden md:block bg-white dark:bg-card-dark rounded-xl border border-gray-100 dark:border-white/5 overflow-hidden">
                 <table className="w-full text-left">
                     <thead className="bg-gray-50 dark:bg-white/5 border-b border-gray-100 dark:border-white/5">
                         <tr>
@@ -77,8 +78,8 @@ export default function AdminOrdersPage() {
                                 <td className="p-4 font-bold dark:text-white">₹{order.total_amount}</td>
                                 <td className="p-4">
                                     <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${order.status === 'Delivered' ? 'bg-green-100 text-green-700' :
-                                            order.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
-                                                'bg-blue-100 text-blue-700'
+                                        order.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
+                                            'bg-blue-100 text-blue-700'
                                         }`}>
                                         {order.status}
                                     </span>
@@ -100,10 +101,51 @@ export default function AdminOrdersPage() {
                         ))}
                     </tbody>
                 </table>
-                {orders.length === 0 && (
-                    <div className="p-8 text-center text-text-muted">No orders found.</div>
-                )}
             </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden grid gap-4">
+                {orders.map(order => (
+                    <div key={order.id} className="bg-white dark:bg-card-dark p-5 rounded-xl border border-gray-100 dark:border-white/5 shadow-sm space-y-4">
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <span className="text-xs font-mono text-text-muted block mb-1">#{order.id.slice(0, 8)}</span>
+                                <h3 className="font-bold text-text-main dark:text-white text-lg">{order.customer_name}</h3>
+                            </div>
+                            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${order.status === 'Delivered' ? 'bg-green-100 text-green-700' :
+                                order.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
+                                    'bg-blue-100 text-blue-700'
+                                }`}>
+                                {order.status}
+                            </span>
+                        </div>
+
+                        <div className="flex justify-between items-center border-t border-b border-gray-100 dark:border-white/5 py-3">
+                            <span className="text-sm text-text-muted">Total Amount</span>
+                            <span className="font-bold text-xl text-text-main dark:text-white">₹{order.total_amount}</span>
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-semibold text-text-muted mb-2 uppercase">Assign Delivery Boy</label>
+                            <select
+                                className="w-full p-2.5 border rounded-lg text-sm bg-gray-50 dark:bg-black/20 dark:border-white/10 dark:text-white"
+                                value={order.delivery_boy_id || ''}
+                                onChange={(e) => assignDelivery(order.id, e.target.value)}
+                                disabled={order.status === 'Delivered' || order.status === 'Cancelled'}
+                            >
+                                <option value="">Select Delivery Boy</option>
+                                {deliveryBoys.map(boy => (
+                                    <option key={boy.id} value={boy.id}>{boy.full_name || boy.email}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {orders.length === 0 && (
+                <div className="p-8 text-center text-text-muted">No orders found.</div>
+            )}
         </div>
     );
 }

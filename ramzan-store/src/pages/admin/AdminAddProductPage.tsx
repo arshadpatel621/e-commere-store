@@ -1,17 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 
 export default function AdminAddProductPage() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [categories, setCategories] = useState<any[]>([]);
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const fetchCategories = async () => {
+        const { data } = await supabase.from('categories').select('id, name, slug');
+        if (data && data.length > 0) {
+            setCategories(data);
+            // specific fix: only set default if category is not already set (e.g. if we add edit functionality later)
+            // For add page, it's always empty initially
+            setFormData(prev => ({ ...prev, category: data[0].slug }));
+        }
+    };
 
     // Form State
     const [formData, setFormData] = useState({
         name: '',
         price: '',
         unit: 'kg',
-        category: 'fruits',
+        category: '', // Dynamic default
         image: '',
         stock_quantity: '100',
         badge: '',
@@ -101,12 +116,11 @@ export default function AdminAddProductPage() {
                         </div>
                         <div>
                             <label className="block text-sm font-medium mb-1 dark:text-gray-300">Category</label>
-                            <select name="category" value={formData.category} onChange={handleChange} className="w-full p-2 border rounded-lg dark:bg-black/20 dark:border-white/10">
-                                <option value="fruits">Fruits</option>
-                                <option value="dates">Dates</option>
-                                <option value="mangoes">Mangoes</option>
-                                <option value="watermelons">Watermelons</option>
-                                <option value="beverages">Beverages</option>
+                            <select name="category" value={formData.category} onChange={handleChange} className="w-full p-2 border rounded-lg dark:bg-black/20 dark:border-white/10 dark:text-white capitalize">
+                                <option value="">Select Category</option>
+                                {categories.map(cat => (
+                                    <option key={cat.id} value={cat.slug}>{cat.name}</option>
+                                ))}
                             </select>
                         </div>
                     </div>

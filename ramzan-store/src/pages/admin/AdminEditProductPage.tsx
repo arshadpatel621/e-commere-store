@@ -7,6 +7,17 @@ export default function AdminEditProductPage() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [categories, setCategories] = useState<any[]>([]);
+
+    useEffect(() => {
+        fetchProduct();
+        fetchCategories();
+    }, [id]);
+
+    const fetchCategories = async () => {
+        const { data } = await supabase.from('categories').select('id, name, slug');
+        if (data) setCategories(data);
+    };
 
     // Form State
     const [formData, setFormData] = useState({
@@ -94,12 +105,11 @@ export default function AdminEditProductPage() {
                         </div>
                         <div>
                             <label className="block text-sm font-medium mb-1 dark:text-gray-300">Category</label>
-                            <select name="category" value={formData.category} onChange={handleChange} className="w-full p-2 border rounded-lg dark:bg-black/20 dark:border-white/10">
-                                <option value="fruits">Fruits</option>
-                                <option value="dates">Dates</option>
-                                <option value="mangoes">Mangoes</option>
-                                <option value="watermelons">Watermelons</option>
-                                <option value="beverages">Beverages</option>
+                            <select name="category" value={formData.category} onChange={handleChange} className="w-full p-2 border rounded-lg dark:bg-black/20 dark:border-white/10 dark:text-white capitalize">
+                                <option value="">Select Category</option>
+                                {categories.map(cat => (
+                                    <option key={cat.id} value={cat.slug}>{cat.name}</option>
+                                ))}
                             </select>
                         </div>
                     </div>

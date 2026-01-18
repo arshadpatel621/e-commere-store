@@ -18,9 +18,19 @@ interface Product {
 export default function ShopPage() {
     const [searchParams] = useSearchParams();
     const categoryFilter = searchParams.get('category');
+    const searchQuery = searchParams.get('search');
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [categories, setCategories] = useState<any[]>([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const { data } = await supabase.from('categories').select('*');
+            if (data) setCategories(data);
+        };
+        fetchCategories();
+    }, []);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -30,6 +40,10 @@ export default function ShopPage() {
 
                 if (categoryFilter) {
                     query = query.eq('category', categoryFilter);
+                }
+
+                if (searchQuery) {
+                    query = query.ilike('name', `%${searchQuery}%`);
                 }
 
                 const { data, error } = await query;
@@ -45,14 +59,22 @@ export default function ShopPage() {
         };
 
         fetchProducts();
-    }, [categoryFilter]);
+    }, [categoryFilter, searchQuery]);
 
     const getCategoryTitle = () => {
-        if (!categoryFilter) return "Fresh Fruits";
+        if (!categoryFilter) return "All Products";
+
+        // Dynamic check from loaded categories
+        const category = categories.find(c => c.slug === categoryFilter);
+        if (category) return category.name;
+
+        // Fallback for special hardcoded ones if needed, or just return formatted slug
         if (categoryFilter === 'dates') return "Dates (Khajoor)";
         if (categoryFilter === 'watermelons') return "Watermelons";
         if (categoryFilter === 'mangoes') return "Mangoes";
-        return "Products";
+
+        // Capitalize slug as last resort
+        return categoryFilter.charAt(0).toUpperCase() + categoryFilter.slice(1);
     };
 
     return (
@@ -87,34 +109,20 @@ export default function ShopPage() {
                                     <Link to="/shop" className={`flex items-center justify-between p-2 rounded-lg ${!categoryFilter ? 'bg-primary/10 text-primary font-bold' : 'text-text-muted hover:bg-gray-50 dark:hover:bg-white/5'}`}>
                                         <span className="flex items-center gap-3">
                                             <span className="material-symbols-outlined text-[20px]">nutrition</span>
-                                            All Fruits
+                                            All Products
                                         </span>
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link to="/shop?category=dates" className={`flex items-center justify-between p-2 rounded-lg ${categoryFilter === 'dates' ? 'bg-primary/10 text-primary font-bold' : 'text-text-muted hover:bg-gray-50 dark:hover:bg-white/5'}`}>
-                                        <span className="flex items-center gap-3">
-                                            <span className="material-symbols-outlined text-[20px]">calendar_month</span>
-                                            Dates (Khajoor)
-                                        </span>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/shop?category=watermelons" className={`flex items-center justify-between p-2 rounded-lg ${categoryFilter === 'watermelons' ? 'bg-primary/10 text-primary font-bold' : 'text-text-muted hover:bg-gray-50 dark:hover:bg-white/5'}`}>
-                                        <span className="flex items-center gap-3">
-                                            <span className="material-symbols-outlined text-[20px]">water_drop</span>
-                                            Watermelons
-                                        </span>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/shop?category=mangoes" className={`flex items-center justify-between p-2 rounded-lg ${categoryFilter === 'mangoes' ? 'bg-primary/10 text-primary font-bold' : 'text-text-muted hover:bg-gray-50 dark:hover:bg-white/5'}`}>
-                                        <span className="flex items-center gap-3">
-                                            <span className="material-symbols-outlined text-[20px]">emoji_nature</span>
-                                            Mangoes
-                                        </span>
-                                    </Link>
-                                </li>
+                                {categories.map(cat => (
+                                    <li key={cat.id}>
+                                        <Link to={`/shop?category=${cat.slug}`} className={`flex items-center justify-between p-2 rounded-lg ${categoryFilter === cat.slug ? 'bg-primary/10 text-primary font-bold' : 'text-text-muted hover:bg-gray-50 dark:hover:bg-white/5'}`}>
+                                            <span className="flex items-center gap-3">
+                                                <span className="material-symbols-outlined text-[20px]">{cat.image_url ? 'category' : 'eco'}</span>
+                                                {cat.name}
+                                            </span>
+                                        </Link>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </aside>

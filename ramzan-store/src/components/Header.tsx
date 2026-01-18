@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 
 export default function Header() {
     const { itemCount } = useCart();
-    const { user, profile } = useAuth();
+    const { user, profile, signOut } = useAuth();
 
     return (
         <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e5e9e7] bg-white/95 backdrop-blur-md px-6 py-3 lg:px-10 dark:bg-background-dark/95 dark:border-b-neutral-800 transition-colors">
@@ -14,7 +14,7 @@ export default function Header() {
                     <div className="size-8 text-primary">
                         <span className="material-symbols-outlined !text-[32px]">nutrition</span>
                     </div>
-                    <h2 className="text-lg font-bold leading-tight tracking-[-0.015em] hidden sm:block">Ramzan Fruits</h2>
+                    <h2 className="text-lg font-bold leading-tight tracking-[-0.015em] hidden sm:block">ZestMart</h2>
                 </Link>
 
                 {/* Search Bar - Hidden on small screens */}
@@ -24,7 +24,18 @@ export default function Header() {
                             <div className="text-text-muted flex bg-background-light dark:bg-neutral-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
                                 <span className="material-symbols-outlined text-[20px]">search</span>
                             </div>
-                            <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none text-text-main dark:text-white focus:outline-0 focus:ring-0 border-none bg-background-light dark:bg-neutral-800 h-full placeholder:text-text-muted px-4 text-base font-normal leading-normal" placeholder="Search for dates, melons, mangoes..." />
+                            <input
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none text-text-main dark:text-white focus:outline-0 focus:ring-0 border-none bg-background-light dark:bg-neutral-800 h-full placeholder:text-text-muted px-4 text-base font-normal leading-normal"
+                                placeholder="Search for dates, melons, mangoes..."
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        const query = (e.target as HTMLInputElement).value;
+                                        if (query.trim()) {
+                                            window.location.href = `/shop?search=${encodeURIComponent(query)}`;
+                                        }
+                                    }
+                                }}
+                            />
                         </div>
                     </label>
                 </div>
@@ -35,7 +46,10 @@ export default function Header() {
                         <Link to="/" className="text-text-main dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors">Home</Link>
                         <Link to="/shop" className="text-text-main dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors">Shop</Link>
                         {user && profile?.role === 'user' && (
-                            <Link to="/my-orders" className="text-text-main dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors">My Orders</Link>
+                            <>
+                                <Link to="/my-orders" className="text-text-main dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors">My Orders</Link>
+                                <Link to="/profile" className="text-text-main dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors">My Profile</Link>
+                            </>
                         )}
                         {(profile?.role === 'admin' || profile?.role === 'delivery') && (
                             <Link to={profile.role === 'admin' ? "/admin" : "/delivery"} className="text-text-main dark:text-white text-sm font-medium leading-normal hover:text-primary transition-colors">
@@ -61,6 +75,13 @@ export default function Header() {
                                 <Link to={profile?.role === 'user' ? "/my-orders" : (profile?.role === 'admin' ? "/admin" : "/delivery")} className="flex relative cursor-pointer items-center justify-center overflow-hidden rounded-lg size-10 bg-primary/10 hover:bg-primary/20 text-primary transition-colors">
                                     <span className="material-symbols-outlined text-[24px]">person</span>
                                 </Link>
+                                <button
+                                    onClick={() => signOut()}
+                                    title="Sign Out"
+                                    className="flex relative cursor-pointer items-center justify-center overflow-hidden rounded-lg size-10 bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-700 transition-colors"
+                                >
+                                    <span className="material-symbols-outlined text-[20px]">logout</span>
+                                </button>
                             </div>
                         )}
 

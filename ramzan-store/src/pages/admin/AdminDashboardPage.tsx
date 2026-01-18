@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
+import { playNotificationSound } from '../../utils/playNotification';
+import toast from 'react-hot-toast';
 
 interface DashboardStats {
     totalRevenue: number;
@@ -23,6 +25,24 @@ export default function AdminDashboardPage() {
 
     useEffect(() => {
         fetchDashboardData();
+
+        // Realtime subscription
+        const channel = supabase
+            .channel('admin-dashboard-orders')
+            .on(
+                'postgres_changes',
+                { event: 'INSERT', schema: 'public', table: 'orders' },
+                (payload) => {
+                    playNotificationSound();
+                    toast.success(`New Order! ₹${payload.new.total_amount}`);
+                    fetchDashboardData(); // Refresh stats
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
     }, []);
 
     const fetchDashboardData = async () => {
