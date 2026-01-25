@@ -61,3 +61,42 @@ ZestMart Team`;
         alert('Email Failed to Send. Error: ' + JSON.stringify(error));
     }
 };
+
+interface DeliveryAssignmentData {
+    deliveryBoyEmail: string;
+    deliveryBoyName: string;
+    orderId: string;
+}
+
+export const sendDeliveryAssignmentEmail = async (data: DeliveryAssignmentData) => {
+    try {
+        const emailMessage = `Hello ${data.deliveryBoyName},
+
+A new order has been assigned to you! 📦
+
+Order ID: ${data.orderId}
+Status: Processing
+
+Please check your dashboard and complete the delivery on time.
+
+Best regards,
+ZestMart Team`;
+
+        const response = await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ID,
+            {
+                order_id: data.orderId,
+                to_email: data.deliveryBoyEmail,
+                to_name: data.deliveryBoyName,
+                message: emailMessage,
+                subject: `New Assignment: Order #${data.orderId}`
+            },
+            EMAILJS_PUBLIC_KEY
+        );
+        console.log('Assignment email sent successfully!', response.status, response.text);
+    } catch (error) {
+        console.error('Failed to send assignment email:', error);
+        // Don't alert here to avoid disrupting the admin flow too much, just log
+    }
+};

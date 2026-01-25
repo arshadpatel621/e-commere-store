@@ -56,10 +56,15 @@ export default function UserOrdersPage() {
     return (
         <Layout>
             <div className="max-w-4xl w-full mx-auto px-6 py-8">
-                <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl font-bold text-text-main dark:text-white">My Orders</h1>
+                <div className="flex justify-between items-center mb-6 gap-4">
+                    <div className="flex items-center gap-3">
+                        <Link to="/shop" className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors flex-shrink-0">
+                            <span className="material-symbols-outlined text-text-main dark:text-white">arrow_back</span>
+                        </Link>
+                        <h1 className="text-2xl font-bold text-text-main dark:text-white">My Orders</h1>
+                    </div>
                     <div className="md:hidden">
-                        <button onClick={() => signOut()} className="text-sm text-red-500 font-bold hover:underline">Sign Out</button>
+                        <button onClick={() => signOut()} className="text-sm text-red-500 font-bold hover:underline whitespace-nowrap">Sign Out</button>
                     </div>
                 </div>
 

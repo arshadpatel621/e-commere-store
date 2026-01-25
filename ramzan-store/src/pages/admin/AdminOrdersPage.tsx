@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import { sendDeliveryAssignmentEmail } from '../../utils/emailService';
+import { ArrowLeft } from 'lucide-react';
 
 interface Order {
     id: string;
@@ -48,14 +51,32 @@ export default function AdminOrdersPage() {
             })
             .eq('id', orderId);
 
-        if (error) alert('Error assigning delivery boy');
-        else fetchOrders(); // Refresh
+        if (error) {
+            alert('Error assigning delivery boy');
+        } else {
+            // Find delivery boy details and send email
+            const deliveryBoy = deliveryBoys.find(b => b.id === deliveryBoyId);
+            if (deliveryBoy && deliveryBoy.email) {
+                await sendDeliveryAssignmentEmail({
+                    deliveryBoyEmail: deliveryBoy.email,
+                    deliveryBoyName: deliveryBoy.full_name || 'Delivery Partner',
+                    orderId: orderId
+                });
+            }
+            fetchOrders(); // Refresh
+        }
     };
 
     if (loading) return <div className="p-6">Loading orders...</div>;
 
     return (
         <div className="max-w-6xl mx-auto">
+            <div className="mb-6">
+                <Link to="/admin" className="inline-flex items-center gap-2 text-text-muted hover:text-text-main dark:hover:text-white transition-colors">
+                    <ArrowLeft className="w-5 h-5" />
+                    <span>Back to Dashboard</span>
+                </Link>
+            </div>
             <h1 className="text-3xl font-bold mb-6 text-text-main dark:text-white">Order Management</h1>
 
             {/* Desktop Table View */}

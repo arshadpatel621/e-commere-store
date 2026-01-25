@@ -67,16 +67,7 @@ export default function DeliveryDashboardPage() {
                             latitude,
                             longitude,
                             updated_at: new Date().toISOString()
-                        }, { onConflict: 'delivery_boy_id' }); // Upsert by delivery_boy_id is tricky if PK is uuid. Ideally delivery_boy_id should be unique or PK.
-                    // Assuming delivery_boy_id is NOT unique constraint in schema, upsert might fail.
-                    // However, we can just INSERT or UPDATE. Upsert works if unique constraint exists.
-                    // Let's assume for now 1 row per delivery boy.
-                    // If it fails, we might need to select first then update.
-
-                    // BETTER: We should use delivery_boy_id as unique key or having a unique constraint.
-                    // For now, let's try UPSERT. If it fails, we'll fix it.
-                    // Actually, let's verify if delivery_boy_id allows multiple rows. 
-                    // In a real app we'd want only 1 active location.
+                        }, { onConflict: 'delivery_boy_id' });
                 },
                 (error) => console.error('Error tracking location:', error),
                 { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
@@ -107,20 +98,20 @@ export default function DeliveryDashboardPage() {
 
     return (
         <div className="max-w-4xl mx-auto space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <h1 className="text-2xl font-bold text-text-main dark:text-white">My Deliveries</h1>
-                <div className="flex gap-2">
-                    <Link to="/delivery/history" className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">
+                <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+                    <Link to="/delivery/history" className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl font-bold text-sm text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">
                         <span className="material-symbols-outlined text-[20px]">history</span>
-                        <span className="hidden sm:inline">History</span>
+                        <span className="inline">History</span>
                     </Link>
-                    <Link to="/delivery/profile" className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full font-bold text-sm text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">
+                    <Link to="/delivery/profile" className="flex-1 sm:flex-none justify-center flex items-center gap-2 px-3 py-2 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl font-bold text-sm text-text-main dark:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">
                         <span className="material-symbols-outlined text-[20px]">person</span>
-                        <span className="hidden sm:inline">Profile</span>
+                        <span className="inline">Profile</span>
                     </Link>
                     <button
                         onClick={toggleLocationSharing}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm transition-all ${isSharingLocation
+                        className={`flex-1 sm:flex-none justify-center flex items-center gap-2 px-3 py-2 rounded-xl font-bold text-sm transition-all ${isSharingLocation
                             ? 'bg-green-100 text-green-700 hover:bg-green-200 animate-pulse'
                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
@@ -128,7 +119,7 @@ export default function DeliveryDashboardPage() {
                         <span className="material-symbols-outlined text-[20px]">
                             {isSharingLocation ? 'location_on' : 'location_off'}
                         </span>
-                        {isSharingLocation ? 'Sharing Location' : 'Go Online'}
+                        {isSharingLocation ? 'Online' : 'Go Online'}
                     </button>
                 </div>
             </div>
@@ -142,12 +133,24 @@ export default function DeliveryDashboardPage() {
                 <div className="grid gap-6">
                     {orders.map(order => (
                         <div key={order.id} className="bg-white dark:bg-card-dark p-6 rounded-xl border border-gray-100 dark:border-white/5 shadow-sm">
-                            <div className="flex justify-between items-start mb-4">
-                                <div>
-                                    <span className="text-xs font-mono text-text-muted">#{order.id.slice(0, 8)}</span>
-                                    <h3 className="font-bold text-lg text-text-main dark:text-white">{order.customer_name}</h3>
-                                </div>
+                            {/* Header: Order ID & Status */}
+                            <div className="flex justify-between items-start mb-2">
+                                <span className="text-xs font-mono text-text-muted">#{order.id.slice(0, 8)}</span>
                                 <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase">{order.status}</span>
+                            </div>
+
+                            {/* Customer & Call Button */}
+                            <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-100 dark:border-white/5">
+                                <h3 className="font-bold text-lg text-text-main dark:text-white">{order.customer_name}</h3>
+                                {order.address_details?.phone && (
+                                    <a
+                                        href={`tel:${order.address_details.phone}`}
+                                        className="flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg font-bold text-sm hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors"
+                                    >
+                                        <span className="material-symbols-outlined text-[18px]">call</span>
+                                        Call
+                                    </a>
+                                )}
                             </div>
 
                             <div className="space-y-3 mb-6">
@@ -166,7 +169,16 @@ export default function DeliveryDashboardPage() {
                                 </div>
                                 <div className="flex gap-3 text-sm">
                                     <span className="material-symbols-outlined text-gray-400">call</span>
-                                    <p className="text-text-muted">Customer contact info hidden (Simulated)</p>
+                                    <div>
+                                        {order.address_details?.phone ? (
+                                            <a href={`tel:${order.address_details.phone}`} className="text-text-main dark:text-white font-bold hover:text-primary flex items-center gap-2">
+                                                {order.address_details.phone}
+                                                <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs">Tap to Call</span>
+                                            </a>
+                                        ) : (
+                                            <p className="text-text-muted">No phone number provided</p>
+                                        )}
+                                    </div>
                                 </div>
                                 {order.delivery_time_slot && (
                                     <div className="flex gap-3 text-sm">

@@ -1,7 +1,7 @@
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { useCart } from '../context/CartContext';
-import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../hooks/useAuth';
 import { sendOrderEmail } from '../utils/emailService';
@@ -57,6 +57,7 @@ export default function CheckoutPage() {
             firstName: formData.get('firstName'),
             lastName: formData.get('lastName'),
             email: formData.get('email'),
+            phone: formData.get('phone'),
             fullAddress: formData.get('fullAddress'),
             city: formData.get('city'),
             pincode: formData.get('pincode'),
@@ -129,10 +130,14 @@ export default function CheckoutPage() {
                                     <h3 className="text-lg font-bold text-text-main dark:text-white">Contact Information</h3>
                                     <a href="#" className="text-sm font-semibold text-primary hover:underline">Log in</a>
                                 </div>
-                                <div className="space-y-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <label className="block">
                                         <span className="text-text-main dark:text-gray-300 font-medium text-sm mb-1.5 block">Email Address</span>
                                         <input name="email" required className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-gray-700 rounded-lg h-12 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-text-main dark:text-white placeholder:text-gray-400" placeholder="you@example.com" type="email" />
+                                    </label>
+                                    <label className="block">
+                                        <span className="text-text-main dark:text-gray-300 font-medium text-sm mb-1.5 block">Phone Number</span>
+                                        <input name="phone" required className="w-full bg-white dark:bg-black/20 border border-gray-200 dark:border-gray-700 rounded-lg h-12 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-text-main dark:text-white placeholder:text-gray-400" placeholder="+91 98765 43210" type="tel" pattern="[0-9+\-\s]{10,15}" />
                                     </label>
                                 </div>
                             </section>

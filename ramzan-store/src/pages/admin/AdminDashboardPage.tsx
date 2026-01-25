@@ -99,7 +99,7 @@ export default function AdminDashboardPage() {
             <div className="bg-white dark:bg-card-dark rounded-xl border border-gray-100 dark:border-white/5 p-6">
                 <h2 className="text-lg font-bold mb-4">Recent Orders</h2>
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left">
+                    <table className="w-full text-left min-w-[600px]">
                         <thead>
                             <tr className="border-b border-gray-100 dark:border-white/5 text-sm text-text-muted">
                                 <th className="py-3">Order ID</th>
@@ -128,13 +128,13 @@ export default function AdminDashboardPage() {
 }
 
 const StatCard = ({ title, value, icon, color }: { title: string, value: string | number, icon: string, color: string }) => (
-    <div className="bg-white dark:bg-card-dark p-6 rounded-xl border border-gray-100 dark:border-white/5 flex items-center justify-between">
+    <div className="bg-white dark:bg-card-dark p-4 md:p-6 rounded-xl border border-gray-100 dark:border-white/5 flex items-center justify-between shadow-sm">
         <div>
-            <p className="text-sm text-text-muted mb-1">{title}</p>
-            <h3 className="text-2xl font-bold">{value}</h3>
+            <p className="text-xs md:text-sm text-text-muted mb-1 font-medium">{title}</p>
+            <h3 className="text-xl md:text-2xl font-bold text-text-main dark:text-white">{value}</h3>
         </div>
-        <div className={`p-3 rounded-full bg-opacity-10 ${color.replace('text', 'bg')} ${color}`}>
-            <span className="material-symbols-outlined">{icon}</span>
+        <div className={`p-2 md:p-3 rounded-full bg-opacity-10 ${color.replace('text', 'bg')} ${color} flex items-center justify-center`}>
+            <span className="material-symbols-outlined text-[20px] md:text-[24px]">{icon}</span>
         </div>
     </div>
 );

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import ScrollToTop from './components/ScrollToTop';
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import CartPage from './pages/CartPage';
@@ -43,6 +44,7 @@ const LoadingFallback = () => (
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <AuthProvider>
         <CartProvider>
           <Toaster position="top-right" />

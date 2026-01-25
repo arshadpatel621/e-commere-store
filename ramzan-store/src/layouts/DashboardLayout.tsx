@@ -1,11 +1,54 @@
 import { useAuth } from '../hooks/useAuth';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+import { Bell, User } from 'lucide-react';
 
 export default function DashboardLayout() {
     const { profile, signOut } = useAuth();
     const navigate = useNavigate();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
+
+    // Fetch and subscribe to pending orders for Admin
+    useEffect(() => {
+        if (profile?.role === 'admin') {
+            fetchPendingOrders();
+
+            const channel = supabase
+                .channel('dashboard-notifications')
+                .on(
+                    'postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'orders' },
+                    () => {
+                        fetchPendingOrders();
+                    }
+                )
+                .on(
+                    'postgres_changes',
+                    { event: 'UPDATE', schema: 'public', table: 'orders' },
+                    () => {
+                        fetchPendingOrders();
+                    }
+                )
+                .subscribe();
+
+            return () => {
+                supabase.removeChannel(channel);
+            };
+        }
+    }, [profile?.role]);
+
+    const fetchPendingOrders = async () => {
+        const { count, error } = await supabase
+            .from('orders')
+            .select('*', { count: 'exact', head: true })
+            .eq('status', 'Pending');
+
+        if (!error) {
+            setPendingOrdersCount(count || 0);
+        }
+    };
 
     const handleSignOut = async () => {
         await signOut();
@@ -18,9 +61,11 @@ export default function DashboardLayout() {
         { label: 'Categories', icon: 'category', path: '/admin/categories' },
         { label: 'Orders', icon: 'shopping_bag', path: '/admin/orders' },
         { label: 'Manage Users', icon: 'group', path: '/admin/users' },
+        { label: 'My Profile', icon: 'person', path: '/profile' },
     ] : [
         { label: 'My Deliveries', icon: 'local_shipping', path: '/delivery' },
         { label: 'History', icon: 'history', path: '/delivery/history' },
+        { label: 'My Profile', icon: 'person', path: '/profile' },
     ];
 
     return (
@@ -63,14 +108,34 @@ export default function DashboardLayout() {
             {/* Main Content */}
             <div className="flex-1 flex flex-col min-w-0">
                 {/* Mobile Header */}
-                <header className="lg:hidden h-16 bg-white dark:bg-card-dark border-b border-gray-200 dark:border-white/5 flex items-center px-4 justify-between">
-                    <button onClick={() => setSidebarOpen(true)} className="p-2 text-text-muted">
-                        <span className="material-symbols-outlined">menu</span>
-                    </button>
-                    <span className="font-bold text-lg text-text-main dark:text-white">
-                        {profile?.role === 'admin' ? 'Admin' : 'Delivery'}
-                    </span>
-                    <div className="w-8"></div> {/* Spacer */}
+                <header className="lg:hidden h-16 bg-white dark:bg-card-dark border-b border-gray-200 dark:border-white/5 flex items-center px-4 justify-between sticky top-0 z-20">
+                    <div className="flex items-center gap-4">
+                        <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 text-text-muted">
+                            <span className="material-symbols-outlined">menu</span>
+                        </button>
+                        <span className="font-bold text-lg text-text-main dark:text-white">
+                            {profile?.role === 'admin' ? 'Admin' : 'Delivery'}
+                        </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        {/* Admin Bell Icon for Mobile Header */}
+                        {profile?.role === 'admin' && (
+                            <Link to="/admin/orders" className="relative p-2 text-text-main dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors">
+                                <Bell className="size-6" />
+                                {pendingOrdersCount > 0 && (
+                                    <span className="absolute top-1 right-1 size-4 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full border border-white dark:border-background-dark">
+                                        {pendingOrdersCount}
+                                    </span>
+                                )}
+                            </Link>
+                        )}
+
+                        {/* Profile Icon for Mobile Header */}
+                        <Link to="/profile" className="p-2 text-text-main dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-full transition-colors">
+                            <User className="size-6" />
+                        </Link>
+                    </div>
                 </header>
 
                 <main className="flex-1 p-6 overflow-y-auto">
