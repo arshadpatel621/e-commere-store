@@ -29,27 +29,55 @@ export default function LoginPage() {
         else navigate('/');
     };
 
-    const handleVerifyOtp = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleGoogleLogin = async () => {
+        setLoading(true);
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: `${window.location.origin}/`,
+                }
+            });
+            if (error) throw error;
+        } catch (err: any) {
+            console.error('Google Login Error:', err);
+            setError(err.message);
+            setLoading(false);
+        }
+    };
+
+    const verifyOtpLogic = async (token: string) => {
         setLoading(true);
         setError(null);
-
         try {
             const { data, error } = await supabase.auth.verifyOtp({
                 email,
-                token: otp,
+                token,
                 type: 'signup'
             });
 
-            if (error) throw error;
+            if (error) {
+                // Try 'magiclink' type as fallback if signup type fails, 
+                // though for OTP it's usually 'signup' or 'email' depending on flow
+                const { data: retryData, error: retryError } = await supabase.auth.verifyOtp({
+                    email,
+                    token,
+                    type: 'email'
+                });
 
-            if (data.user) {
-                await handleLoginSuccess(data.user.id);
+                if (retryError) throw error;
+                if (retryData.session) {
+                    await handleLoginSuccess(retryData.user!.id);
+                    return;
+                }
+            }
+
+            if (data.session) {
+                await handleLoginSuccess(data.user!.id);
             }
         } catch (err: any) {
             console.error('OTP Verification Error:', err);
-            setError(err.message || 'Invalid verification code');
-        } finally {
+            setError(err.message || 'Invalid code');
             setLoading(false);
         }
     };
@@ -58,15 +86,17 @@ export default function LoginPage() {
         setLoading(true);
         setError(null);
         try {
-            const { error } = await supabase.auth.resend({
-                type: 'signup',
-                email
+            const { error } = await supabase.auth.signInWithOtp({
+                email,
+                options: {
+                    shouldCreateUser: false
+                }
             });
             if (error) throw error;
-            alert('Verification code resent!');
+            alert('Code resent successfully!');
         } catch (err: any) {
             console.error('Resend Error:', err);
-            setError(err.message || 'Failed to resend code');
+            setError(err.message);
         } finally {
             setLoading(false);
         }
@@ -82,13 +112,10 @@ export default function LoginPage() {
         const password = formData.get('password') as string;
         const fullName = formData.get('fullName') as string;
 
-        // Store email for OTP step
-        setEmail(formEmail);
-
         try {
             if (isSignUp) {
-                // Sign Up Logic
-                const { error: signUpError } = await supabase.auth.signUp({
+                // Sign Up Logic (Auto-Confirm assumes Supabase "Confirm Email" is OFF)
+                const { error: signUpError, data } = await supabase.auth.signUp({
                     email: formEmail,
                     password,
                     options: {
@@ -100,8 +127,14 @@ export default function LoginPage() {
                 });
                 if (signUpError) throw signUpError;
 
-                setShowOtpInput(true);
-                setError(null); // Clear any previous errors
+                // If "Confirm Email" is OFF, user is usually logged in immediately.
+                // If data.session is null, it means verification is still ON.
+                if (data.session) {
+                    await handleLoginSuccess(data.user!.id);
+                } else {
+                    setEmail(formEmail);
+                    setShowOtpInput(true);
+                }
             } else {
                 // Sign In Logic
                 const { data, error: signInError } = await supabase.auth.signInWithPassword({
@@ -133,14 +166,10 @@ export default function LoginPage() {
             <div className="min-h-[calc(100vh-80px)] flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8 bg-gray-50/50 dark:bg-black/10">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md mb-6">
                     <h2 className="text-center text-3xl font-extrabold text-text-main dark:text-white tracking-tight">
-                        {showOtpInput
-                            ? 'Verify Your Email'
-                            : (isSignUp ? 'Join Ramzan Store' : 'Welcome Back')}
+                        {isSignUp ? 'Join Ramzan Store' : 'Welcome Back'}
                     </h2>
                     <p className="mt-2 text-center text-sm text-text-muted">
-                        {showOtpInput
-                            ? `We've sent a code to ${email}`
-                            : (isSignUp ? 'Create your account to start shopping' : 'Please sign in to continue')}
+                        {isSignUp ? 'Create your account to start shopping' : 'Please sign in to continue'}
                     </p>
                 </div>
 
@@ -191,8 +220,48 @@ export default function LoginPage() {
                             </div>
                         )}
 
+                        {/* Google Login for Users */}
+                        {activeTab === 'user' && (
+                            <div className="mb-6">
+                                <button
+                                    onClick={handleGoogleLogin}
+                                    type="button"
+                                    className="w-full flex justify-center items-center gap-3 py-3 px-4 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm bg-white dark:bg-black/20 text-sm font-medium text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all"
+                                >
+                                    <svg className="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24">
+                                        <path
+                                            d="M12.0003 20.45c4.6667 0 8.0834-3.2083 8.0834-8.0833 0-0.6667-0.0834-1.3333-0.2084-1.9583h-7.875v3.6666h4.5417c-0.2084 1.25-0.9584 2.5-2.0417 3.25l-0.0195 0.1292 2.9782 2.3087 0.2064 0.0205c1.8333-1.6667 2.875-4.1667 2.875-7.375 0-0.7917-0.0833-1.5417-0.25-2.2917H12.0003v-4.5h9.125c0.6667 1.25 1.0417 2.6667 1.0417 4.1667 0 5.25-3.5 9.4167-8.5417 9.4167-2.625 0-4.9167-1.125-6.5-2.9167-0.6667-0.7917-1.1667-1.7083-1.4583-2.7083l-0.1287 0.0108-3.1118 2.4087-0.043 0.1213c1.6667 3.3333 5.0833 5.5833 9.0417 5.5833z"
+                                            fill="#4285F4"
+                                        />
+                                        <path
+                                            d="M5.4169 13.9583c-0.2917-0.8333-0.4584-1.75-0.4584-2.7083 0-0.9583 0.1667-1.875 0.4584-2.7083l-0.0142-0.1466-3.1491-2.4468-0.1064 0.0505C1.4169 7.375 1.0003 8.75 1.0003 10.25c0 1.5 0.4166 2.875 1.1458 4.0833l3.2708-2.375z"
+                                            fill="#FBBC05"
+                                        />
+                                        <path
+                                            d="M12.0003 4.75c2.3333 0 4.4167 0.8333 6.0417 2.2083l3.2083-3.2083C19.3336 2.0417 15.9169 1.0001 12.0003 1.0001 8.0419 1.0001 4.6253 3.25 2.9586 6.5833l3.2709 2.5417C7.3544 6.7083 9.5003 4.75 12.0003 4.75z"
+                                            fill="#EA4335"
+                                        />
+                                        <path
+                                            d="M12.0003 20.45c-2.5 0-4.6667-1.5833-5.7917-3.875l-3.2709 2.5417c1.6667 3.3333 5.0833 5.5833 9.0417 5.5833 2.5417 0 4.8333-0.875 6.5417-2.3333 0.5417-0.4583 1.0417-1 1.4583-1.5833l-2.9583-2.3334c-1.25 0.9583-2.9167 1.5417-4.9167 1.5417z"
+                                            fill="#34A853"
+                                        />
+                                    </svg>
+                                    <span>Continue with Google</span>
+                                </button>
+
+                                <div className="relative my-6">
+                                    <div className="absolute inset-0 flex items-center">
+                                        <div className="w-full border-t border-gray-200 dark:border-gray-700"></div>
+                                    </div>
+                                    <div className="relative flex justify-center text-sm">
+                                        <span className="px-2 bg-white dark:bg-card-dark text-text-muted">Or continue with email</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         {showOtpInput ? (
-                            <form className="space-y-4 sm:space-y-5" onSubmit={handleVerifyOtp}>
+                            <form className="space-y-4 sm:space-y-5" onSubmit={(e) => { e.preventDefault(); verifyOtpLogic(otp); }}>
                                 <div className="space-y-1.5">
                                     <label className="block text-sm font-medium text-text-main dark:text-white ml-1">
                                         Verification Code
@@ -204,9 +273,20 @@ export default function LoginPage() {
                                         <input
                                             type="text"
                                             value={otp}
-                                            onChange={(e) => setOtp(e.target.value)}
+                                            onChange={(e) => {
+                                                const val = e.target.value.slice(0, 8);
+                                                setOtp(val);
+                                                // Auto-verify when 6 digits are entered (standard Supabase length)
+                                                if (val.length === 6) {
+                                                    // We can't call handleVerifyOtp directly because it takes an event
+                                                    // So we create a synthetic event or extract the logic.
+                                                    // For cleaner code, we'll just trigger the submit button programmatically or separate the logic.
+                                                    // Let's separate the logic first.
+                                                    verifyOtpLogic(val);
+                                                }
+                                            }}
                                             required
-                                            maxLength={6}
+                                            maxLength={8}
                                             className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50/50 dark:bg-black/20 text-text-main dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-base tracking-widest"
                                             placeholder="123456"
                                         />
